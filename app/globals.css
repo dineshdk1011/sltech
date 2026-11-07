@@ -1,0 +1,784 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --toast-bg: #f0f7ff;
+  --toast-border: #b3d9ff;
+  --toast-icon-bg: #e6f2ff;
+  --toast-icon: #002b8b;
+  --toast-text: #002b8b;
+  --toast-text-secondary: #666666;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.site-footer {
+  background: #071a2b;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 2rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 30px 50px;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1.2fr 1.4fr 1.1fr;
+  gap: 45px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 22px;
+}
+
+.logo-mark {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.logo-name {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.logo-tagline {
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  opacity: 0.75;
+}
+
+.footer-company p {
+  max-width: 310px;
+  margin: 0;
+  color: #b8c5d1;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.footer-column h3 {
+  margin: 0 0 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footer-column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: 13px;
+}
+
+.footer-column li a {
+  color: #b8c5d1;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.25s ease;
+}
+
+.footer-column li a:hover {
+  color: #ffffff;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 17px;
+  color: #b8c5d1;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-icon {
+  min-width: 20px;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-social p {
+  margin: -8px 0 16px;
+  color: #b8c5d1;
+  font-size: 13px;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.social-icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.social-icon:hover {
+  background: #1268d8;
+  border-color: #1268d8;
+  transform: translateY(-2px);
+}
+
+.footer-enquire {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: #1268d8;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.footer-enquire:hover {
+  background: #0b57b8;
+  transform: translateY(-1px);
+}
+
+.footer-enquire span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-bottom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #8fa1b1;
+  font-size: 12px;
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+}
+
+.footer-legal a {
+  color: #8fa1b1;
+  text-decoration: none;
+}
+
+.footer-legal a:hover {
+  color: #ffffff;
+}
+
+.footer-legal span {
+  color: #536575;
+}
+
+@media (max-width: 1000px) {
+  .footer-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .footer-company {
+    grid-column: span 3;
+  }
+
+  .footer-company p {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 650px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    padding: 45px 22px 35px;
+    gap: 32px;
+  }
+
+  .footer-company {
+    grid-column: auto;
+  }
+
+  .footer-company p {
+    max-width: 100%;
+  }
+
+  .footer-column h3 {
+    margin-bottom: 15px;
+  }
+
+  .footer-social {
+    padding-top: 5px;
+  }
+
+  .social-icons {
+    margin-bottom: 20px;
+  }
+
+  .footer-bottom-container {
+    padding: 18px 22px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer-legal {
+    flex-wrap: wrap;
+  }
+}
+
+/**
+ * Unified brand gradient for headings and service-related text.
+ *
+ * Source of truth: the "Commercial Laundry Services" page heading
+ * (components/Services.tsx -> components/ui.tsx <SectionHeading />).
+ * These stops are the site standard: every heading and service title in the app
+ * resolves to this single gradient. Do not introduce a second gradient.
+ */
+@utility text-gradient-brand {
+  background-image: linear-gradient(to right, #002b8b, #0753b8, #1268d8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@layer base {
+  a {
+   @apply transition-colors duration-200;
+  }
+
+  /* Every heading defaults to the shared brand gradient so a new heading can
+     never silently land on a different colour. Explicit colour utilities on the
+     element (e.g. text-white on the navy CTA panels) still win, because the
+     utilities layer is emitted after base. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+   @apply text-gradient-brand;
+  }
+}
+
+@layer components {
+  .btn-primary {
+   @apply inline-flex items-center justify-center rounded-md bg-[#002B8B] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#001F66] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002B8B] focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+   @apply inline-flex items-center justify-center rounded-md border border-[#002B8B] bg-white px-5 py-2.5 text-sm font-semibold text-[#002B8B] shadow-sm transition-all duration-200 hover:bg-[#EAF4FD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002B8B] focus-visible:ring-offset-2;
+  }
+}
+
+input,
+textarea,
+select {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.enquiry-search-input {
+  padding-left: 40px !important;
+}
+
+.mission-vision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.mission-vision-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 430px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  overflow: hidden;
+  border-radius: 26px;
+  padding: 30px 28px 26px;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.mission-vision-card::before,
+.mission-vision-card::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.mission-card {
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 76% 52%, rgba(0, 167, 255, 0.27), transparent 42%),
+    linear-gradient(138deg, #073a98 0%, #032b7c 54%, #001d5e 100%);
+  box-shadow: 0 16px 36px rgba(0, 37, 105, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.mission-card::before {
+  right: -10%;
+  bottom: -25%;
+  left: -10%;
+  height: 48%;
+  border: 1px solid rgba(65, 198, 255, 0.26);
+  border-radius: 50% 48% 0 0;
+  background: repeating-radial-gradient(ellipse at 48% 100%, transparent 0 17px, rgba(38, 173, 255, 0.12) 18px 19px, transparent 20px 33px);
+  transform: rotate(-5deg);
+}
+
+.mission-card::after {
+  right: -20%;
+  bottom: -45%;
+  left: 20%;
+  height: 75%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(15, 141, 255, 0.23), transparent 68%);
+}
+
+.vision-card {
+  color: #092c72;
+  border: 1px solid #d8eaff;
+  background:
+    radial-gradient(ellipse at 78% 46%, rgba(93, 177, 255, 0.2), transparent 43%),
+    linear-gradient(140deg, #f1f8ff 0%, #e5f2ff 55%, #d9ebff 100%);
+  box-shadow: 0 16px 36px rgba(30, 91, 157, 0.12), inset 0 1px 0 #fff;
+}
+
+.vision-card::before {
+  right: -14%;
+  bottom: -28%;
+  left: 15%;
+  height: 65%;
+  border: 1px solid rgba(40, 135, 232, 0.13);
+  border-radius: 50% 50% 0 0;
+  background-image: radial-gradient(rgba(30, 127, 226, 0.25) 1px, transparent 1.5px);
+  background-size: 11px 11px;
+  mask-image: linear-gradient(130deg, transparent 10%, #000 76%);
+  transform: rotate(-12deg);
+}
+
+.vision-card::after {
+  top: 12%;
+  right: 2%;
+  width: 45%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(52, 146, 239, 0.12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(255, 255, 255, 0.12), 0 0 0 46px rgba(52, 146, 239, 0.05);
+}
+
+.mission-vision-copy {
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.mission-vision-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.mission-vision-label::after {
+  width: 28px;
+  height: 2px;
+  content: "";
+  background: currentColor;
+  opacity: 0.65;
+}
+
+.mission-card .mission-vision-label {
+  color: #83d9ff;
+}
+
+.vision-card .mission-vision-label {
+  color: #1268d8;
+}
+
+.mission-vision-copy h3 {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(23px, 2vw, 30px);
+  font-weight: 800;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+
+.mission-vision-description {
+  margin: 16px 0 0;
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+/* The vision card is a light surface, so its heading takes the shared brand
+   gradient. The mission card is deep navy, where a dark gradient would be
+   unreadable, so it keeps its white heading. */
+.vision-card .mission-vision-copy h3 {
+  background-image: linear-gradient(to right, #002b8b, #0753b8, #1268d8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mission-card .mission-vision-description {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.vision-card .mission-vision-description {
+  color: #344c70;
+}
+
+.mission-vision-art {
+  position: relative;
+  z-index: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  place-items: center;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  pointer-events: none;
+}
+
+.mission-vision-image {
+  display: block;
+  width: 100%;
+  max-width: 310px;
+  max-height: 100%;
+  height: auto;
+  justify-self: center;
+  aspect-ratio: 1;
+  object-fit: contain;
+  animation: mission-vision-float 7s ease-in-out infinite;
+}
+
+.mission-art .mission-vision-image {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 12px 19px rgba(0, 191, 255, 0.22));
+}
+
+.vision-art .mission-vision-image {
+  width: 100%;
+  filter: drop-shadow(0 18px 19px rgba(0, 93, 201, 0.2));
+}
+
+.mission-art-badge {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  width: clamp(36px, 3vw, 50px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(120, 225, 255, 0.8);
+  border-radius: 50%;
+  color: #e8faff;
+  background: radial-gradient(circle at 32% 26%, rgba(76, 210, 255, 0.56), rgba(0, 58, 162, 0.94) 72%);
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: mission-vision-float 6s ease-in-out infinite;
+}
+
+.mission-art-badge svg {
+  width: 48%;
+  height: 48%;
+  stroke-width: 2.2;
+}
+
+.mission-art-badge-tools {
+  top: 8%;
+  right: 0;
+}
+
+.mission-art-badge-reliability {
+  right: 0;
+  bottom: 21%;
+  animation-delay: -1.8s;
+}
+
+.mission-art-badge-support {
+  bottom: 8%;
+  left: 0;
+  animation-delay: -3.2s;
+}
+
+.mission-vision-pill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(91, 213, 255, 0.62);
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #fff;
+  background: rgba(0, 44, 126, 0.42);
+  box-shadow: 0 0 20px rgba(0, 156, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  grid-column: 1;
+  grid-row: 2;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.mission-vision-pill span {
+  white-space: nowrap;
+}
+
+.mission-vision-pill svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.vision-card .mission-vision-pill {
+  border-color: #c7defd;
+  color: #0643a5;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 8px 20px rgba(30, 98, 175, 0.1), inset 0 1px 0 #fff;
+}
+
+.mission-vision-card:hover {
+  transform: translateY(-4px);
+}
+
+.mission-card:hover {
+  box-shadow: 0 22px 48px rgba(0, 37, 105, 0.27), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.vision-card:hover {
+  box-shadow: 0 22px 48px rgba(30, 91, 157, 0.17), inset 0 1px 0 #fff;
+}
+
+.mission-vision-card:hover .mission-vision-pill {
+  transform: translateY(-2px);
+}
+
+@keyframes mission-vision-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .mission-vision-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-vision-card {
+    min-height: 410px;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    padding: 28px 32px 24px;
+  }
+
+  .mission-vision-copy {
+    max-width: 390px;
+  }
+
+  .mission-vision-copy h3 {
+    font-size: clamp(26px, 3.5vw, 32px);
+  }
+
+  .mission-vision-description {
+    font-size: 15px;
+  }
+
+  .mission-vision-image {
+    width: 100%;
+    max-width: 390px;
+  }
+}
+
+@media (max-width: 600px) {
+  .mission-vision-grid {
+    gap: 16px;
+  }
+
+  .mission-vision-card {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-radius: 22px;
+    padding: 22px 20px 20px;
+  }
+
+  .mission-vision-copy {
+    order: 1;
+    max-width: none;
+  }
+
+  .mission-vision-label {
+    margin-bottom: 12px;
+  }
+
+  .mission-vision-copy h3 {
+    max-width: 420px;
+    font-size: clamp(25px, 7.5vw, 30px);
+  }
+
+  .mission-vision-description {
+    max-width: 500px;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.58;
+  }
+
+  .mission-vision-art {
+    order: 2;
+    width: 100%;
+    height: clamp(156px, 52vw, 212px);
+    margin: 4px 0 8px;
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .mission-vision-image,
+  .vision-art .mission-vision-image {
+    width: 100%;
+    max-width: none;
+    max-height: 100%;
+    height: auto;
+  }
+
+  .mission-art-badge {
+    display: none;
+  }
+
+  .mission-vision-pill {
+    order: 3;
+    min-height: 42px;
+    align-self: flex-start;
+    gap: 7px;
+    padding: 0 12px;
+    font-size: clamp(11px, 3.2vw, 12px);
+  }
+}
+
+@media (max-width: 350px) {
+  .mission-vision-card {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .mission-vision-art {
+    height: 154px;
+  }
+
+  .mission-vision-pill {
+    gap: 6px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-vision-image,
+  .mission-art-badge {
+    animation: none;
+  }
+
+  .mission-vision-card,
+  .mission-vision-pill {
+    transition: none;
+  }
+}
+
+/* Careers dialogs — subtle entrance, disabled for reduced-motion users. */
+@keyframes careersModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.careers-modal-panel {
+  animation: careersModalIn 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .careers-modal-panel {
+    animation: none;
+  }
+}
