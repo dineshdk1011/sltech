@@ -1,8 +1,19 @@
 import { cache } from 'react'
 import type { AllowedUserRecord, CurrentUserSnapshot } from '@/lib/types'
+import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { createClient } from '@/lib/supabase/server'
 
 const getAuthData = cache(async () => {
+  if (!isSupabaseConfigured()) {
+    return {
+      supabase: null,
+      authUser: null,
+      allowedUser: null,
+      allowedUserError: false,
+      email: '',
+    }
+  }
+
   const supabase = await createClient()
   const { data: { user: authUser } } = await supabase.auth.getUser()
   const email = authUser?.email?.trim().toLowerCase() ?? ''

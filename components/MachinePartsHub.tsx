@@ -2,27 +2,22 @@
 
 import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
+  ArrowRight,
   BadgeCheck,
-  Building,
   Check,
   ChevronRight,
-  Cpu,
   Eye,
   Filter,
   Flame,
-  Gauge,
-  Layers,
   MapPin,
-  Package,
   Plus,
-  RotateCw,
   Search,
-  ShieldAlert,
   ShieldCheck,
   Sparkles,
   Wrench,
-  Zap,
 } from 'lucide-react';
 import {
   BRANCHES,
@@ -30,41 +25,62 @@ import {
   MACHINES,
   SPARE_PARTS,
   type Machine,
-  type MachineCategory,
   type SparePart,
 } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
 
 export default function MachinePartsHub() {
-  const { addItem, hasItem, openDrawer } = useCart();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { addItem, hasItem, items, openDrawer } = useCart();
 
-  // Active filters
-  const [selectedCategory, setSelectedCategory] = useState<string>('washer-extractor');
-  const [selectedBrand, setSelectedBrand] = useState<string>('all');
+  // Derive URL-backed filters so links like /products?tab=parts or /products?brand=Danube work seamlessly
+  const selectedCategory = useMemo(() => {
+    const param = searchParams.get('category');
+    if (param && MACHINE_CATEGORIES.some((c) => c.id === param)) {
+      return param;
+    }
+    return 'all';
+  }, [searchParams]);
+
+  const selectedBrand = useMemo(() => {
+    const param = searchParams.get('brand');
+    return param || 'all';
+  }, [searchParams]);
+
+  const activeTab: 'all' | 'machines' | 'parts' = useMemo(() => {
+    const param = searchParams.get('tab');
+    return param === 'machines' || param === 'parts' ? param : 'all';
+  }, [searchParams]);
+
   const [selectedCapacityTier, setSelectedCapacityTier] = useState<string>('all');
   const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'all' | 'machines' | 'parts'>('all');
-  const [activeMachineDetail, setActiveMachineDetail] = useState<Machine | null>(null);
 
-  // Available brands derived from data
+  const updateQueryParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === 'all') {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  };
+
+  // Available brands derived from catalog data
   const brands = useMemo(() => {
-    const list = Array.from(new Set(MACHINES.map((m) => m.brand)));
-    return ['all', ...list];
+    return Array.from(new Set(MACHINES.map((m) => m.brand)));
   }, []);
 
   // Filtered Machines
   const filteredMachines = useMemo(() => {
     return MACHINES.filter((m) => {
-      // Category filter (if not "all")
       if (selectedCategory !== 'all' && m.categoryId !== selectedCategory) return false;
-      // Brand filter
       if (selectedBrand !== 'all' && m.brand !== selectedBrand) return false;
-      // Capacity filter
       if (selectedCapacityTier !== 'all' && m.capacityTier !== selectedCapacityTier) return false;
-      // Branch filter
       if (selectedBranch !== 'all' && !m.availableBranches.includes(selectedBranch)) return false;
-      // Search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesName = m.name.toLowerCase().includes(query);
@@ -80,11 +96,9 @@ export default function MachinePartsHub() {
   // Filtered Spare Parts
   const filteredParts = useMemo(() => {
     return SPARE_PARTS.filter((part) => {
-      // Category filter
       if (selectedCategory !== 'all' && !part.applicableCategoryIds.includes(selectedCategory)) {
         return false;
       }
-      // Brand filter
       if (
         selectedBrand !== 'all' &&
         !part.compatibleBrands.includes(selectedBrand) &&
@@ -92,7 +106,6 @@ export default function MachinePartsHub() {
       ) {
         return false;
       }
-      // Search
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesName = part.name.toLowerCase().includes(query);
@@ -105,7 +118,6 @@ export default function MachinePartsHub() {
     });
   }, [selectedCategory, selectedBrand, searchQuery]);
 
-  // Current selected Category Object
   const currentCategoryObj = useMemo(() => {
     return MACHINE_CATEGORIES.find((c) => c.id === selectedCategory);
   }, [selectedCategory]);
@@ -147,7 +159,16 @@ export default function MachinePartsHub() {
   };
 
   return (
-    <section id="equipment-catalog" className="scroll-mt-24 space-y-10">
+    <section id="equipment-catalog" className="scroll-mt-24 space-y-10 pb-16 pt-2">
+      {/* Breadcrumb */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+        <Link href="/" className="hover:text-[#002B8B] transition-colors">
+          Home
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+        <span className="text-[#002B8B] font-bold">Products &amp; Spare Parts</span>
+      </nav>
+
       {/* Section Header */}
       <div className="relative isolate overflow-hidden rounded-3xl bg-gradient-to-br from-[#061B3B] via-[#092B5E] to-[#0A3A7C] px-6 py-10 md:px-12 md:py-14 text-white shadow-xl shadow-blue-950/20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
@@ -162,16 +183,16 @@ export default function MachinePartsHub() {
             Commercial Laundry Equipment &amp; Genuine Spare Parts Hub
           </div>
 
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-white">
             6 Specialized Machine Types &amp; All-In-One Parts Finder
-          </h2>
+          </h1>
 
           <p className="mt-3 text-base sm:text-lg text-slate-200 leading-relaxed">
-            Browse our complete machinery lineup. Filter option-wise by{' '}
+            Browse our complete machinery lineup. Filter by{' '}
             <strong className="text-cyan-300">Brand</strong>,{' '}
             <strong className="text-cyan-300">Capacity</strong>, and{' '}
-            <strong className="text-cyan-300">Branch Availability</strong>. Select any machine or
-            genuine replacement part to generate an instant enquiry quote.
+            <strong className="text-cyan-300">Branch Availability</strong>, or open any dedicated
+            product page for full specifications.
           </p>
 
           {/* Quick stats pills */}
@@ -194,83 +215,96 @@ export default function MachinePartsHub() {
 
       {/* 6 MACHINE CATEGORY CARDS / QUICK SELECT TABS */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#002B8B]">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-[#002B8B]">
               Step 1: Choose Commercial Laundry Machine Category
-            </h3>
+            </h2>
             <p className="text-sm font-semibold text-slate-800">
-              Select one of the 6 specialized machine types below to view machines and linked parts:
+              Filter below or open a dedicated category page to explore models and compatible parts:
             </p>
           </div>
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${
-              selectedCategory === 'all'
-                ? 'bg-[#002B8B] text-white'
-                : 'text-slate-500 hover:text-[#002B8B] bg-slate-100'
-            }`}
-          >
-            Show All 6 Types
-          </button>
+          <div className="flex items-center gap-2">
+            {items.length > 0 && (
+              <button
+                type="button"
+                onClick={openDrawer}
+                className="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 cursor-pointer"
+              >
+                Basket ({items.length})
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => updateQueryParam('category', 'all')}
+              className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                selectedCategory === 'all'
+                  ? 'bg-[#002B8B] text-white'
+                  : 'text-slate-600 hover:text-[#002B8B] bg-slate-100'
+              }`}
+            >
+              Show All 6 Types
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {MACHINE_CATEGORIES.map((cat, idx) => {
             const isSelected = selectedCategory === cat.id;
+            const catPartsCount = SPARE_PARTS.filter((p) =>
+              p.applicableCategoryIds.includes(cat.id)
+            ).length;
             return (
-              <button
+              <div
                 key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`group relative flex flex-col text-left rounded-2xl p-3.5 transition-all duration-200 cursor-pointer border ${
+                className={`group relative flex flex-col justify-between rounded-2xl p-3.5 transition-all duration-200 border ${
                   isSelected
-                    ? 'border-[#002B8B] bg-gradient-to-b from-blue-50/90 to-white shadow-lg shadow-blue-900/10 ring-2 ring-[#002B8B]/20 -translate-y-1'
+                    ? 'border-[#002B8B] bg-gradient-to-b from-blue-50/90 to-white shadow-lg shadow-blue-900/10 ring-2 ring-[#002B8B]/20 -translate-y-0.5'
                     : 'border-slate-200/80 bg-white hover:border-blue-300 hover:shadow-md'
                 }`}
               >
-                {/* Image thumb */}
-                <div className="relative h-24 w-full rounded-xl bg-slate-100 overflow-hidden mb-3 border border-slate-100">
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute top-1.5 left-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-900/70 text-white backdrop-blur-xs">
-                    0{idx + 1}
-                  </span>
-                  <span className="absolute bottom-1.5 right-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-600 text-white">
-                    {cat.capacityRange}
-                  </span>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => updateQueryParam('category', cat.id)}
+                  className="text-left cursor-pointer w-full"
+                >
+                  <div className="relative h-24 w-full rounded-xl bg-slate-100 overflow-hidden mb-3 border border-slate-100">
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-1.5 left-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-slate-900/70 text-white backdrop-blur-xs">
+                      0{idx + 1}
+                    </span>
+                    <span className="absolute bottom-1.5 right-1.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-600 text-white">
+                      {cat.capacityRange}
+                    </span>
+                  </div>
 
-                <div className="flex-1">
-                  <h4
+                  <h3
                     className={`text-xs font-extrabold line-clamp-1 ${
                       isSelected ? 'text-[#002B8B]' : 'text-slate-900 group-hover:text-[#002B8B]'
                     }`}
                   >
                     {cat.shortName}
-                  </h4>
+                  </h3>
                   <p className="text-[10px] text-slate-500 line-clamp-2 mt-0.5 leading-snug">
                     {cat.tagline}
                   </p>
-                </div>
+                </button>
 
                 <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
-                  <span className="font-semibold text-slate-400">
-                    {cat.partCount}+ Parts
-                  </span>
-                  <span
-                    className={`font-bold inline-flex items-center gap-0.5 ${
-                      isSelected ? 'text-[#002B8B]' : 'text-slate-400 group-hover:text-[#002B8B]'
-                    }`}
+                  <span className="font-semibold text-slate-400">{catPartsCount} Parts</span>
+                  <Link
+                    href={`/products/${cat.id}`}
+                    className="font-bold inline-flex items-center gap-0.5 text-[#002B8B] hover:underline"
                   >
-                    Select <ChevronRight className="w-3 h-3" />
-                  </span>
+                    Open Page <ChevronRight className="w-3 h-3" />
+                  </Link>
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>
@@ -279,7 +313,7 @@ export default function MachinePartsHub() {
       {/* FILTER CONTROLS BAR (Brand, Capacity, Branch & Search) */}
       <div className="rounded-3xl border border-slate-200/80 bg-gradient-to-r from-slate-50 via-white to-blue-50/30 p-4 sm:p-6 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200/60">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Filter className="w-5 h-5 text-[#002B8B]" />
             <span className="text-sm font-bold text-slate-900">
               Filter Options: Brand, Capacity &amp; Branch Availability
@@ -290,10 +324,11 @@ export default function MachinePartsHub() {
           </div>
 
           {/* View Tab Buttons */}
-          <div className="flex items-center p-1 bg-slate-100 rounded-xl">
+          <div className="flex items-center p-1 bg-slate-100 rounded-xl w-fit">
             <button
-              onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+              type="button"
+              onClick={() => updateQueryParam('tab', 'all')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'all'
                   ? 'bg-white text-[#002B8B] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
@@ -302,8 +337,9 @@ export default function MachinePartsHub() {
               All in One Place
             </button>
             <button
-              onClick={() => setActiveTab('machines')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+              type="button"
+              onClick={() => updateQueryParam('tab', 'machines')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'machines'
                   ? 'bg-white text-[#002B8B] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
@@ -312,8 +348,9 @@ export default function MachinePartsHub() {
               Machines ({filteredMachines.length})
             </button>
             <button
-              onClick={() => setActiveTab('parts')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+              type="button"
+              onClick={() => updateQueryParam('tab', 'parts')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'parts'
                   ? 'bg-white text-[#002B8B] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
@@ -333,17 +370,15 @@ export default function MachinePartsHub() {
             </label>
             <select
               value={selectedBrand}
-              onChange={(e) => setSelectedBrand(e.target.value)}
+              onChange={(e) => updateQueryParam('brand', e.target.value)}
               className="w-full text-xs font-semibold px-3 py-2.5 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#002B8B]"
             >
               <option value="all">All Brands (Authorized &amp; Serviced)</option>
-              <option value="Danube">Danube (Authorized Dealer)</option>
-              <option value="Speed Queen">Speed Queen (Authorized Dealer)</option>
-              <option value="LG Commercial">LG Commercial (Authorized)</option>
-              <option value="Girbau">Girbau</option>
-              <option value="Domus">Domus</option>
-              <option value="Electrolux Professional">Electrolux Professional</option>
-              <option value="Fagor">Fagor</option>
+              {brands.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -397,12 +432,14 @@ export default function MachinePartsHub() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search models, VFDs, valves..."
-                className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#002B8B]"
+                className="enquiry-search-input w-full pr-8 py-2.5 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#002B8B]"
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-700 text-xs"
+                  className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-700 text-xs cursor-pointer"
+                  aria-label="Clear search"
                 >
                   ✕
                 </button>
@@ -428,20 +465,22 @@ export default function MachinePartsHub() {
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#002B8B] text-white">
                 Category Selected
               </span>
-              <h3 className="text-xl font-extrabold text-slate-900 mt-1">
+              <h2 className="text-xl font-extrabold text-slate-900 mt-1">
                 {currentCategoryObj.name}
-              </h3>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mt-0.5">
                 {currentCategoryObj.description}
               </p>
             </div>
           </div>
 
-          <div className="shrink-0 flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">
-              Showing matching machines &amp; replacement parts
-            </span>
-          </div>
+          <Link
+            href={`/products/${currentCategoryObj.id}`}
+            className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#002B8B] hover:bg-[#001f66] text-white text-xs font-bold transition-colors"
+          >
+            <span>Open {currentCategoryObj.shortName} Page</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       )}
 
@@ -450,12 +489,12 @@ export default function MachinePartsHub() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+              <h2 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
                 <span>Commercial Machinery Catalog</span>
                 <span className="text-xs font-bold bg-blue-100 text-[#002B8B] px-2.5 py-0.5 rounded-full">
                   {filteredMachines.length} Models
                 </span>
-              </h3>
+              </h2>
               <p className="text-xs text-slate-500">
                 Engineered for maximum reliability, water/energy efficiency, and long lifespan.
               </p>
@@ -499,8 +538,11 @@ export default function MachinePartsHub() {
                       </span>
                     </div>
 
-                    {/* Machine Photo */}
-                    <div className="relative h-48 w-full rounded-2xl bg-gradient-to-b from-slate-50 to-slate-100 overflow-hidden mb-4 border border-slate-100 flex items-center justify-center p-3">
+                    {/* Machine Photo (Clickable -> Machine Page) */}
+                    <Link
+                      href={`/products/${machine.categoryId}/${machine.id}`}
+                      className="relative h-48 w-full rounded-2xl bg-gradient-to-b from-slate-50 to-slate-100 overflow-hidden mb-4 border border-slate-100 flex items-center justify-center p-3"
+                    >
                       <Image
                         src={machine.image}
                         alt={machine.name}
@@ -513,16 +555,18 @@ export default function MachinePartsHub() {
                           {machine.heatingType}
                         </span>
                       )}
-                    </div>
+                    </Link>
 
                     {/* Title & Model */}
                     <div className="flex-1">
                       <div className="text-[10px] font-mono text-slate-400">
                         Model: {machine.modelCode}
                       </div>
-                      <h4 className="text-base font-extrabold text-slate-900 line-clamp-1 group-hover:text-[#002B8B] transition-colors">
-                        {machine.name}
-                      </h4>
+                      <Link href={`/products/${machine.categoryId}/${machine.id}`}>
+                        <h3 className="text-base font-extrabold text-slate-900 group-hover:text-[#002B8B] transition-colors">
+                          {machine.name}
+                        </h3>
+                      </Link>
 
                       {/* Specs pills */}
                       <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
@@ -547,7 +591,9 @@ export default function MachinePartsHub() {
                             <span className="text-slate-400 block text-[9px] uppercase font-bold">
                               Volume
                             </span>
-                            <span className="font-bold text-slate-800">{machine.drumVolume}</span>
+                            <span className="font-bold text-slate-800 truncate block">
+                              {machine.drumVolume}
+                            </span>
                           </div>
                         )}
                         <div className="p-2 rounded-xl bg-slate-50 border border-slate-100">
@@ -562,7 +608,7 @@ export default function MachinePartsHub() {
 
                       {/* Branch availability tags */}
                       <div className="mt-3">
-                        <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1 flex items-center gap-1">
+                        <span className="text-[10px] text-slate-400 uppercase font-bold mb-1 flex items-center gap-1">
                           <MapPin className="w-3 h-3 text-slate-400" />
                           Branch Stock:
                         </span>
@@ -586,20 +632,19 @@ export default function MachinePartsHub() {
 
                     {/* Actions Bar */}
                     <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMachineDetail(machine)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-colors"
+                      <Link
+                        href={`/products/${machine.categoryId}/${machine.id}`}
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-[#002B8B]/40 text-slate-700 hover:text-[#002B8B] text-xs font-bold transition-colors"
                         title="View Full Specifications & Matching Parts"
                       >
-                        <Eye className="w-3.5 h-3.5 text-slate-500" />
-                        <span className="hidden sm:inline">Details</span>
-                      </button>
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Details</span>
+                      </Link>
 
                       <button
                         type="button"
                         onClick={() => handleSelectMachine(machine)}
-                        className={`flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                        className={`flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20'
                             : 'bg-gradient-to-r from-[#002B8B] to-[#1268D8] hover:brightness-105 text-white shadow-md shadow-blue-900/20'
@@ -608,12 +653,12 @@ export default function MachinePartsHub() {
                         {isSelected ? (
                           <>
                             <Check className="w-3.5 h-3.5" />
-                            Selected in Enquiry
+                            <span>Selected in Enquiry</span>
                           </>
                         ) : (
                           <>
                             <Plus className="w-3.5 h-3.5" />
-                            Select for Enquiry
+                            <span>Select for Enquiry</span>
                           </>
                         )}
                       </button>
@@ -626,24 +671,24 @@ export default function MachinePartsHub() {
         </div>
       )}
 
-      {/* SECTION 2: GENUINE SPARE PARTS CATALOG ("all in one places") */}
+      {/* SECTION 2: GENUINE SPARE PARTS CATALOG */}
       {(activeTab === 'all' || activeTab === 'parts') && (
-        <div className="space-y-4 pt-6">
+        <div id="spare-parts" className="scroll-mt-24 space-y-4 pt-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+              <h2 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
                 <span>Genuine OEM Laundry Spare Parts</span>
                 <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
                   {filteredParts.length} Parts Available
                 </span>
-              </h3>
+              </h2>
               <p className="text-xs text-slate-500">
                 100% authentic replacement motors, inverter drives, drain valves, solenoids,
                 bearings, gaskets, heating elements &amp; control boards.
               </p>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 w-fit">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               Pan-India 24-48h Fast Dispatch
             </div>
@@ -692,10 +737,10 @@ export default function MachinePartsHub() {
 
                     {/* Part Title & Description */}
                     <div className="flex-1">
-                      <h4 className="text-sm font-extrabold text-slate-900 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                      <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors">
                         {part.name}
-                      </h4>
-                      <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                         {part.description}
                       </p>
 
@@ -721,7 +766,7 @@ export default function MachinePartsHub() {
                       <button
                         type="button"
                         onClick={() => handleSelectPart(part)}
-                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
                             : 'bg-slate-900 hover:bg-[#002B8B] text-white'
@@ -730,12 +775,12 @@ export default function MachinePartsHub() {
                         {isSelected ? (
                           <>
                             <Check className="w-3.5 h-3.5" />
-                            Added
+                            <span>Added</span>
                           </>
                         ) : (
                           <>
                             <Plus className="w-3.5 h-3.5" />
-                            Add to Quote
+                            <span>Add to Quote</span>
                           </>
                         )}
                       </button>
@@ -745,154 +790,6 @@ export default function MachinePartsHub() {
               })}
             </div>
           )}
-        </div>
-      )}
-
-      {/* MACHINE DETAIL MODAL (Quick View with linked spare parts!) */}
-      {activeMachineDetail && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto bg-slate-950/70 backdrop-blur-md animate-in fade-in duration-200"
-        >
-          <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-2xl text-slate-800">
-            <button
-              onClick={() => setActiveMachineDetail(null)}
-              className="absolute right-4 top-4 p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
-              aria-label="Close"
-            >
-              ✕
-            </button>
-
-            {/* Modal Header */}
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#002B8B]">
-                {activeMachineDetail.brand}
-              </span>
-              <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                {activeMachineDetail.capacityLabel}
-              </span>
-              <span className="text-xs text-slate-400 font-mono">
-                Model: {activeMachineDetail.modelCode}
-              </span>
-            </div>
-
-            <h3 className="text-2xl font-extrabold text-slate-900">
-              {activeMachineDetail.name}
-            </h3>
-
-            {/* Main content grid */}
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-              <div className="relative h-64 w-full rounded-2xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-4">
-                <Image
-                  src={activeMachineDetail.image}
-                  alt={activeMachineDetail.name}
-                  fill
-                  className="object-contain p-2"
-                />
-              </div>
-
-              <div className="space-y-4">
-                <div className="text-xs space-y-2">
-                  <div className="flex justify-between py-1.5 border-b border-slate-100">
-                    <span className="text-slate-500">Heating Method</span>
-                    <span className="font-bold text-slate-900">{activeMachineDetail.heatingType}</span>
-                  </div>
-                  {activeMachineDetail.spinSpeed && (
-                    <div className="flex justify-between py-1.5 border-b border-slate-100">
-                      <span className="text-slate-500">Max Spin Speed</span>
-                      <span className="font-bold text-slate-900">{activeMachineDetail.spinSpeed}</span>
-                    </div>
-                  )}
-                  {activeMachineDetail.gFactor && (
-                    <div className="flex justify-between py-1.5 border-b border-slate-100">
-                      <span className="text-slate-500">G-Factor Extraction</span>
-                      <span className="font-bold text-[#002B8B]">{activeMachineDetail.gFactor}</span>
-                    </div>
-                  )}
-                  {activeMachineDetail.drumVolume && (
-                    <div className="flex justify-between py-1.5 border-b border-slate-100">
-                      <span className="text-slate-500">Drum Volume</span>
-                      <span className="font-bold text-slate-900">{activeMachineDetail.drumVolume}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between py-1.5 border-b border-slate-100">
-                    <span className="text-slate-500">Dimensions</span>
-                    <span className="font-bold text-slate-900">{activeMachineDetail.dimensions}</span>
-                  </div>
-                  <div className="flex justify-between py-1.5 border-b border-slate-100">
-                    <span className="text-slate-500">Electrical Rating</span>
-                    <span className="font-bold text-slate-900">{activeMachineDetail.electricalSupply}</span>
-                  </div>
-                  <div className="flex justify-between py-1.5 border-b border-slate-100">
-                    <span className="text-slate-500">Lead Time</span>
-                    <span className="font-bold text-emerald-600">{activeMachineDetail.leadTime}</span>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleSelectMachine(activeMachineDetail);
-                      setActiveMachineDetail(null);
-                    }}
-                    className="w-full py-3 px-4 rounded-xl bg-[#002B8B] hover:bg-[#001f66] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Select This Machine for Enquiry
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Key Features */}
-            <div className="mt-6 border-t border-slate-100 pt-5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                Key Industrial Engineering Features
-              </h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600">
-                {activeMachineDetail.keyFeatures.map((feat, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Direct Compatible Spare Parts for this Machine */}
-            <div className="mt-6 border-t border-slate-100 pt-5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
-                <Wrench className="w-4 h-4 text-[#002B8B]" />
-                Genuine Spare Parts Compatible with this Machine
-              </h4>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                {SPARE_PARTS.filter((p) =>
-                  p.applicableCategoryIds.includes(activeMachineDetail.categoryId),
-                )
-                  .slice(0, 4)
-                  .map((p) => (
-                    <div
-                      key={p.id}
-                      className="p-3 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between text-xs"
-                    >
-                      <div>
-                        <div className="font-bold text-slate-900 truncate">{p.name}</div>
-                        <div className="text-[10px] text-slate-500 font-mono">{p.partNumber}</div>
-                      </div>
-                      <button
-                        onClick={() => handleSelectPart(p)}
-                        className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-emerald-400 text-[10px] font-bold text-slate-700 hover:text-emerald-700"
-                      >
-                        + Add Part
-                      </button>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </section>

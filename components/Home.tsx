@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import gsap from 'gsap';
@@ -10,24 +10,16 @@ import {
   Check,
   CheckCircle2,
   Clock,
-  Layers,
-  MapPin,
-  MessageCircle,
   Package,
   Phone,
   ShieldCheck,
-  SlidersHorizontal,
-  Sparkles,
   Wrench,
-  Zap,
 } from 'lucide-react';
 import { MACHINE_CATEGORIES, MACHINES, SPARE_PARTS } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
-import CategoryViewerModal from './CategoryViewerModal';
 
 export default function Home() {
   const { openDrawer } = useCart();
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -229,16 +221,28 @@ export default function Home() {
             Choose a Machine Type to View Brands &amp; Sizes
           </h2>
           <p className="mt-2 text-sm text-slate-600">
-            Click on any machine category below to filter models by{' '}
+            Click on any machine category below to open its dedicated catalog page — filter models by{' '}
             <strong className="text-slate-900">Brand</strong>,{' '}
             <strong className="text-slate-900">Capacity Size</strong>, and view all compatible genuine spare parts.
           </p>
+          <div className="mt-3">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002B8B] hover:underline"
+            >
+              <span>Or browse all 6 lines &amp; spare parts finder</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         {/* 6 Cards Grid (GSAP Animated) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {MACHINE_CATEGORIES.map((cat, idx) => {
             const catMachines = MACHINES.filter((m) => m.categoryId === cat.id);
+            const catPartsCount = SPARE_PARTS.filter((p) =>
+              p.applicableCategoryIds.includes(cat.id)
+            ).length;
             const brandNames = Array.from(new Set(catMachines.map((m) => m.brand))).join(', ');
 
             return (
@@ -246,7 +250,7 @@ export default function Home() {
                 key={cat.id}
                 className="gsap-machine-card group flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-5 shadow-sm hover:border-[#002B8B]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
-                <div>
+                <Link href={`/products/${cat.id}`} className="block focus-visible:outline-none">
                   {/* Header Badge */}
                   <div className="flex items-center justify-between text-xs mb-3">
                     <span className="font-mono text-slate-400 font-bold text-[11px]">
@@ -298,26 +302,24 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </Link>
 
-                {/* View Action Button */}
+                {/* View Action Links */}
                 <div className="mt-5 space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveCategoryId(cat.id)}
-                    className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 hover:bg-[#002B8B] text-white font-bold text-xs transition-colors cursor-pointer shadow-sm group-hover:shadow-md"
+                  <Link
+                    href={`/products/${cat.id}`}
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 hover:bg-[#002B8B] text-white font-bold text-xs transition-colors shadow-sm group-hover:shadow-md"
                   >
                     <span>View Models, Brands &amp; Sizes</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </button>
+                  </Link>
 
-                  <button
-                    type="button"
-                    onClick={() => setActiveCategoryId(cat.id)}
-                    className="w-full text-center text-[11px] font-semibold text-slate-500 hover:text-[#002B8B] transition-colors cursor-pointer py-1"
+                  <Link
+                    href={`/products/${cat.id}?tab=parts`}
+                    className="block w-full text-center text-[11px] font-semibold text-slate-500 hover:text-[#002B8B] transition-colors py-1"
                   >
-                    View Compatible Spare Parts ({cat.partCount})
-                  </button>
+                    View Compatible Spare Parts ({catPartsCount})
+                  </Link>
                 </div>
               </div>
             );
@@ -346,11 +348,17 @@ export default function Home() {
 
         <div className="shrink-0 flex flex-col sm:flex-row gap-3">
           <Link
-            href="/enquiry"
+            href="/products?tab=parts"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#002B8B] hover:bg-[#001f66] text-white text-xs font-bold transition-all shadow-md shadow-blue-900/20"
           >
             <Package className="w-4 h-4 text-cyan-300" />
-            <span>Enquire for Spare Parts</span>
+            <span>Browse Spare Parts</span>
+          </Link>
+          <Link
+            href="/enquiry"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition-all"
+          >
+            <span>Enquire Now</span>
           </Link>
           <a
             href="tel:+919361624107"
@@ -440,12 +448,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      {/* POPUP / MODAL: VIEW MODELS, BRANDS & SIZES FOR SELECTED CATEGORY */}
-      <CategoryViewerModal
-        categoryId={activeCategoryId}
-        onClose={() => setActiveCategoryId(null)}
-      />
     </div>
   );
 }

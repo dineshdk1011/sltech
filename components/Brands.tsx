@@ -210,7 +210,7 @@ export default function Brands() {
             </p>
 
             <Link
-              href="/#machines-section"
+              href="/products?brand=Danube"
               className="inline-flex items-center gap-2 text-xs font-bold text-[#002B8B] hover:text-[#1268D8] transition-colors"
             >
               <span>Explore Danube Equipment</span>
@@ -246,7 +246,7 @@ export default function Brands() {
             </p>
 
             <Link
-              href="/#machines-section"
+              href="/products?brand=Speed%20Queen"
               className="inline-flex items-center gap-2 text-xs font-bold text-[#002B8B] hover:text-[#1268D8] transition-colors"
             >
               <span>Explore Speed Queen Equipment</span>
@@ -282,7 +282,7 @@ export default function Brands() {
             </p>
 
             <Link
-              href="/#machines-section"
+              href="/products?brand=LG%20Commercial"
               className="inline-flex items-center gap-2 text-xs font-bold text-[#002B8B] hover:text-[#1268D8] transition-colors"
             >
               <span>Explore LG Equipment</span>

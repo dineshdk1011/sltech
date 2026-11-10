@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
+import { getSupabaseConfig } from '@/lib/supabase/config'
 import type {
   JobApplication,
   JobApplicationInput,
@@ -145,19 +146,19 @@ export async function uploadResume(
   file: File,
   onProgress?: (percent: number) => void,
 ): Promise<ResumeUploadResult> {
+  const config = getSupabaseConfig()
+  if (!config) {
+    throw new Error('Resume upload is not configured. Please contact the administrator.')
+  }
+
+  const supabaseUrl = config.url
+  const supabaseKey = config.publishableKey
   const supabase = createClient()
   const path = buildResumePath(file.name)
 
   const {
     data: { session },
   } = await supabase.auth.getSession()
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Resume upload is not configured. Please contact the administrator.')
-  }
 
   const endpoint = `${supabaseUrl}/storage/v1/object/${RESUME_BUCKET}/${encodeURI(path)}`
 

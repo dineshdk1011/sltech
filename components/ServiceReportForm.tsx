@@ -123,7 +123,6 @@ export default function ServiceReportForm() {
     setIsSaving(true)
 
     const isLocalDevelopment = process.env.NODE_ENV === 'development'
-    const supabase = createClient()
 
     if (!isLocalDevelopment && !authUser) {
       setError('Your session has expired. Please sign in again.')
@@ -132,6 +131,7 @@ export default function ServiceReportForm() {
     }
 
     try {
+      const supabase = createClient()
       const { error: insertError } = await supabase
         .from('service_reports')
         .insert({

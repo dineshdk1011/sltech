@@ -11,6 +11,7 @@ import type { User } from '@supabase/supabase-js';
 
 import type { AllowedUserRecord, CurrentUserSnapshot } from '@/lib/types';
 import { createClient } from '@/lib/supabase/client';
+import { isSupabaseConfigured } from '@/lib/supabase/config';
 
 const UserContext = createContext<CurrentUserSnapshot | null>(null);
 
@@ -31,6 +32,10 @@ export function UserProvider({
   const [currentUser, setCurrentUser] = useState(initialUser);
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      return;
+    }
+
     const supabase = createClient();
     let requestId = 0;
     let currentAuthUserId = initialUser.authUser?.id ?? null;

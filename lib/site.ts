@@ -12,6 +12,8 @@
  * Do not merge these. Use each only for its own channel.
  */
 
+import { MACHINE_CATEGORIES, MACHINES } from './catalog-data';
+
 export const SITE_URL = 'https://sllaundrytech.com';
 
 export const NAP = {
@@ -63,15 +65,26 @@ export const sameAsProfiles = [
  * they should never be submitted to search engines.
  */
 export const PUBLIC_ROUTES = [
-  { path: '/', priority: 1.0, changeFrequency: 'weekly' },
-  { path: '/services', priority: 0.9, changeFrequency: 'monthly' },
-  { path: '/brands', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/about-us', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/gallery', priority: 0.6, changeFrequency: 'monthly' },
-  { path: '/careers', priority: 0.7, changeFrequency: 'weekly' },
-  { path: '/enquiry', priority: 0.6, changeFrequency: 'yearly' },
-] as const;
+  { path: '/', priority: 1.0, changeFrequency: 'weekly' as const },
+  { path: '/products', priority: 0.9, changeFrequency: 'weekly' as const },
+  ...MACHINE_CATEGORIES.map((category) => ({
+    path: `/products/${category.id}`,
+    priority: 0.85,
+    changeFrequency: 'monthly' as const,
+  })),
+  ...MACHINES.map((machine) => ({
+    path: `/products/${machine.categoryId}/${machine.id}`,
+    priority: 0.75,
+    changeFrequency: 'monthly' as const,
+  })),
+  { path: '/services', priority: 0.9, changeFrequency: 'monthly' as const },
+  { path: '/brands', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/about-us', priority: 0.7, changeFrequency: 'monthly' as const },
+  { path: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/gallery', priority: 0.6, changeFrequency: 'monthly' as const },
+  { path: '/careers', priority: 0.7, changeFrequency: 'weekly' as const },
+  { path: '/enquiry', priority: 0.6, changeFrequency: 'yearly' as const },
+];
 
 /** Paths that must never be indexed (auth callbacks, dashboards, reports). */
 export const PRIVATE_ROUTE_PREFIXES = [

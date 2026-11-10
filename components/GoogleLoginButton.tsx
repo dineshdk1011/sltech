@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/client';
+import { isSupabaseConfigured } from '@/lib/supabase/config';
 
 export default function GoogleLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,18 +13,31 @@ export default function GoogleLoginButton() {
   const handleGoogleLogin = async (): Promise<void> => {
     if (isLoading) return;
 
+    if (!isSupabaseConfigured()) {
+      setErrorMessage(
+        'Engineer sign-in is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY to .env.local.',
+      );
+      return;
+    }
+
     setErrorMessage('');
     setIsLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/`,
-      },
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=/`,
+        },
+      });
 
-    if (error) {
+      if (error) {
+        console.error('Google sign-in failed:', error);
+        setErrorMessage('We could not start Google sign-in. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (error) {
       console.error('Google sign-in failed:', error);
       setErrorMessage('We could not start Google sign-in. Please try again.');
       setIsLoading(false);

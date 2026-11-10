@@ -136,7 +136,8 @@ export default function Header() {
             {visibleHeaders.map((header) => {
               const isActive =
                 pathname === header.path ||
-                (header.path !== '/' && pathname.startsWith(`${header.path}/`));
+                (header.path !== '/' && pathname.startsWith(`${header.path}/`)) ||
+                (header.name === 'Machines & Spares' && pathname.startsWith('/products'));
 
               return (
                 <li key={header.id}>
@@ -243,7 +244,8 @@ export default function Header() {
               const Icon = headerIcons[header.name];
               const isActive =
                 pathname === header.path ||
-                (header.path !== '/' && pathname.startsWith(`${header.path}/`));
+                (header.path !== '/' && pathname.startsWith(`${header.path}/`)) ||
+                (header.name === 'Machines & Spares' && pathname.startsWith('/products'));
 
               return (
                 <li key={header.id}>

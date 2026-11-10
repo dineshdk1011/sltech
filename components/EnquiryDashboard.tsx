@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ArrowDown, ArrowUp, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, LogOut, Mail, MapPin, MessageSquare, Phone, Search, UserRound } from 'lucide-react'
 
 import { createClient } from '@/lib/supabase/client'
+import { isSupabaseConfigured } from '@/lib/supabase/config'
 import ErrorScreen from './enquiry-dashboard/ErrorScreen'
 import { sortOptionsDefaults, summaryCardsDefaults, tableColumnsDefaults } from './enquiry-dashboard/defaults'
 import LoginScreen from './enquiry-dashboard/LoginScreen'
@@ -60,12 +61,13 @@ export default function EnquiryDashboard() {
   useEffect(() => {
     if (loading) return
 
-    const supabase = createClient()
     let isMounted = true
     let timeoutInterval: number | undefined
 
     const signOutAndClear = async (): Promise<void> => {
-      await supabase.auth.signOut()
+      if (isSupabaseConfigured()) {
+        await createClient().auth.signOut()
+      }
       clearApplicationSession()
     }
 
@@ -87,11 +89,13 @@ export default function EnquiryDashboard() {
     }
 
     const initialize = async (): Promise<void> => {
-      if (!authUser) {
+      if (!isSupabaseConfigured() || !authUser) {
         clearApplicationSession()
         showLogin()
         return
       }
+
+      const supabase = createClient()
 
       if (!email) {
         await signOutAndClear()
@@ -201,8 +205,10 @@ export default function EnquiryDashboard() {
   }
 
   const handleLogout = async (): Promise<void> => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    if (isSupabaseConfigured()) {
+      const supabase = createClient()
+      await supabase.auth.signOut()
+    }
     clearApplicationSession()
     setUserEmail('')
     setViewState('login')

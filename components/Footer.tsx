@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Manrope } from "next/font/google";
 import Link from "next/link";
-import { MACHINE_CATEGORIES, BRANCHES } from "@/lib/catalog-data";
+import { MACHINE_CATEGORIES } from "@/lib/catalog-data";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -107,7 +107,7 @@ export default function Footer() {
             {MACHINE_CATEGORIES.map((cat) => (
               <li key={cat.id}>
                 <Link
-                  href="/#equipment-catalog"
+                  href={`/products/${cat.id}`}
                   className="text-slate-600 hover:text-[#002B8B] transition-colors"
                 >
                   {cat.shortName}
@@ -124,27 +124,27 @@ export default function Footer() {
           </h3>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/#equipment-catalog" className="text-slate-600 hover:text-[#002B8B]">
+              <Link href="/products?tab=parts" className="text-slate-600 hover:text-[#002B8B]">
                 Inverter Drives &amp; VFDs
               </Link>
             </li>
             <li>
-              <Link href="/#equipment-catalog" className="text-slate-600 hover:text-[#002B8B]">
+              <Link href="/products?tab=parts" className="text-slate-600 hover:text-[#002B8B]">
                 Drain Valves (3&quot; Motorized)
               </Link>
             </li>
             <li>
-              <Link href="/#equipment-catalog" className="text-slate-600 hover:text-[#002B8B]">
+              <Link href="/products?tab=parts" className="text-slate-600 hover:text-[#002B8B]">
                 Inlet Water Solenoids
               </Link>
             </li>
             <li>
-              <Link href="/#equipment-catalog" className="text-slate-600 hover:text-[#002B8B]">
+              <Link href="/products?tab=parts" className="text-slate-600 hover:text-[#002B8B]">
                 Bearings &amp; Viton Seals
               </Link>
             </li>
             <li>
-              <Link href="/#equipment-catalog" className="text-slate-600 hover:text-[#002B8B]">
+              <Link href="/products?tab=parts" className="text-slate-600 hover:text-[#002B8B]">
                 Silicone Door Gaskets
               </Link>
             </li>

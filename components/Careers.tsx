@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { fetchPublishedJobs } from '@/lib/careers'
+import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { useCurrentUser } from '@/components/UserContext'
 
 import AdminCareersPanel from './careers/AdminCareersPanel'
@@ -42,6 +43,15 @@ export default function Careers() {
     setIsLoading(true)
     setErrorMessage('')
     setSetupRequired(false)
+
+    if (!isSupabaseConfigured()) {
+      setSetupRequired(true)
+      setErrorMessage(
+        'Our careers listings are being finalised. Please check back shortly — you can still submit your resume below.',
+      )
+      setIsLoading(false)
+      return
+    }
 
     try {
       setOpenings(await fetchPublishedJobs())
