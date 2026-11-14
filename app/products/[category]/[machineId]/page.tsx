@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import MachineDetailView from '@/components/MachineDetailView';
-import { MACHINE_CATEGORIES, MACHINES } from '@/lib/catalog-data';
+import { MACHINE_CATEGORIES, MACHINES, getMachineImages } from '@/lib/catalog-data';
 import { SITE_URL } from '@/lib/site';
 
 interface MachinePageProps {
@@ -30,6 +30,8 @@ export async function generateMetadata({ params }: MachinePageProps): Promise<Me
   const description = `${machine.brand} ${machine.name} (${machine.capacityLabel}, Model: ${machine.modelCode}). ${machine.keyFeatures.slice(0, 2).join('. ')}.`;
   const fullTitle = `${machine.name} | SL Laundry Tech`;
 
+  const machineImages = getMachineImages(machine);
+
   return {
     title: machine.name,
     description,
@@ -41,20 +43,18 @@ export async function generateMetadata({ params }: MachinePageProps): Promise<Me
       description,
       url: pageUrl,
       type: 'website',
-      images: [
-        {
-          url: machine.image,
-          width: 1200,
-          height: 630,
-          alt: machine.name,
-        },
-      ],
+      images: machineImages.map((img, i) => ({
+        url: img,
+        width: 1200,
+        height: 896,
+        alt: `${machine.name} - View ${i + 1}`,
+      })),
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [machine.image],
+      images: machineImages,
     },
   };
 }
@@ -68,6 +68,8 @@ export default async function MachineDetailPage({ params }: MachinePageProps) {
     notFound();
   }
 
+  const machineImages = getMachineImages(machine);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -79,7 +81,7 @@ export default async function MachineDetailPage({ params }: MachinePageProps) {
       name: machine.brand,
     },
     category: category.name,
-    image: `${SITE_URL}${machine.image}`,
+    image: machineImages.map((img) => `${SITE_URL}${img}`),
     description: `${machine.name} (${machine.capacityLabel}) — ${machine.keyFeatures.join('. ')}`,
     offers: {
       '@type': 'Offer',

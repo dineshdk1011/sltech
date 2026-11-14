@@ -11,7 +11,6 @@ import {
   ChevronRight,
   Eye,
   Filter,
-  Flame,
   MapPin,
   Plus,
   Search,
@@ -28,6 +27,8 @@ import {
   type SparePart,
 } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
+import ProductCardGallery from './ProductCardGallery';
+import PartCardGallery from './PartCardGallery';
 
 export default function MachinePartsHub() {
   const router = useRouter();
@@ -538,24 +539,16 @@ export default function MachinePartsHub() {
                       </span>
                     </div>
 
-                    {/* Machine Photo (Clickable -> Machine Page) */}
-                    <Link
+                    {/* Machine 4-Image Interactive Gallery */}
+                    <ProductCardGallery
+                      images={machine.images}
+                      alt={machine.name}
                       href={`/products/${machine.categoryId}/${machine.id}`}
-                      className="relative h-48 w-full rounded-2xl bg-gradient-to-b from-slate-50 to-slate-100 overflow-hidden mb-4 border border-slate-100 flex items-center justify-center p-3"
-                    >
-                      <Image
-                        src={machine.image}
-                        alt={machine.name}
-                        fill
-                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {machine.heatingType && (
-                        <span className="absolute bottom-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/90 text-slate-700 backdrop-blur-xs border border-slate-200/70 flex items-center gap-1">
-                          <Flame className="w-3 h-3 text-amber-500" />
-                          {machine.heatingType}
-                        </span>
-                      )}
-                    </Link>
+                      categoryId={machine.categoryId}
+                      heatingType={machine.heatingType}
+                      modelCode={machine.modelCode}
+                      inStock={machine.inStock}
+                    />
 
                     {/* Title & Model */}
                     <div className="flex-1">
@@ -722,18 +715,13 @@ export default function MachinePartsHub() {
                       </span>
                     </div>
 
-                    {/* Part Image & Category */}
-                    <div className="relative h-40 w-full rounded-2xl bg-slate-50 overflow-hidden mb-3 border border-slate-100 flex items-center justify-center p-2">
-                      <Image
-                        src={part.image}
-                        alt={part.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <span className="absolute bottom-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900/80 text-white backdrop-blur-xs">
-                        {part.category}
-                      </span>
-                    </div>
+                    {/* Part 4-Image Interactive Gallery */}
+                    <PartCardGallery
+                      images={part.images}
+                      name={part.name}
+                      partNumber={part.partNumber}
+                      category={part.category}
+                    />
 
                     {/* Part Title & Description */}
                     <div className="flex-1">

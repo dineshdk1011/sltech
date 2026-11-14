@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { MACHINE_CATEGORIES, MACHINES, SPARE_PARTS } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
+import CategoryCardGallery from './CategoryCardGallery';
 
 export default function Home() {
   const { openDrawer } = useCart();
@@ -250,33 +251,26 @@ export default function Home() {
                 key={cat.id}
                 className="gsap-machine-card group flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-5 shadow-sm hover:border-[#002B8B]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
+                {/* Header Badge */}
+                <div className="flex items-center justify-between text-xs mb-3">
+                  <span className="font-mono text-slate-400 font-bold text-[11px]">
+                    0{idx + 1} {'//'}
+                  </span>
+                  <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-blue-50 text-[#002B8B] border border-blue-100">
+                    {cat.capacityRange}
+                  </span>
+                </div>
+
+                {/* 4-Image Machine Line Gallery */}
+                <CategoryCardGallery
+                  images={cat.images}
+                  name={cat.name}
+                  badge={cat.badge}
+                  modelCount={catMachines.length}
+                  categoryId={cat.id}
+                />
+
                 <Link href={`/products/${cat.id}`} className="block focus-visible:outline-none">
-                  {/* Header Badge */}
-                  <div className="flex items-center justify-between text-xs mb-3">
-                    <span className="font-mono text-slate-400 font-bold text-[11px]">
-                      0{idx + 1} //
-                    </span>
-                    <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-blue-50 text-[#002B8B] border border-blue-100">
-                      {cat.capacityRange}
-                    </span>
-                  </div>
-
-                  {/* Machine Photo */}
-                  <div className="relative h-52 w-full rounded-2xl bg-gradient-to-b from-[#F9FBFE] to-[#EEF5FD] overflow-hidden my-2 flex items-center justify-center p-3 border border-slate-100">
-                    <Image
-                      src={cat.image}
-                      alt={cat.name}
-                      fill
-                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <span className="absolute bottom-2.5 left-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/95 text-slate-700 shadow-xs">
-                      {cat.badge}
-                    </span>
-                    <span className="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/90 text-[#002B8B] shadow-xs">
-                      {catMachines.length} Models
-                    </span>
-                  </div>
-
                   {/* Title & Tagline */}
                   <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-[#002B8B] transition-colors mt-2">
                     {cat.name}

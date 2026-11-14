@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   ChevronRight,
   Clock,
-  Flame,
   MapPin,
   Phone,
   Plus,
@@ -23,12 +22,16 @@ import {
   BRANCHES,
   MACHINES,
   SPARE_PARTS,
+  getMachineImages,
+  getPartImages,
   type Machine,
   type MachineCategory,
   type SparePart,
 } from '@/lib/catalog-data';
 import { NAP } from '@/lib/site';
 import { useCart } from './CartContext';
+import MachineDetailGallery from './MachineDetailGallery';
+import PartCardGallery from './PartCardGallery';
 
 interface MachineDetailViewProps {
   category: MachineCategory;
@@ -151,27 +154,16 @@ export default function MachineDetailView({ category, machine }: MachineDetailVi
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left: Product Image Showcase */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="relative h-72 sm:h-96 w-full rounded-3xl bg-gradient-to-b from-[#F9FBFE] to-[#EEF5FD] border border-slate-100 overflow-hidden flex items-center justify-center p-6">
-              <Image
-                src={machine.image}
-                alt={machine.name}
-                fill
-                priority
-                className="object-contain p-4"
-              />
-              <span className="absolute top-3 left-3 text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-white/95 text-slate-700 border border-slate-200/80 shadow-2xs">
-                {machine.modelCode}
-              </span>
-              {machine.inStock && (
-                <span className="absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  In Stock
-                </span>
-              )}
-              <span className="absolute bottom-3 left-3 text-xs font-bold px-2.5 py-1 rounded-lg bg-white/95 text-slate-800 border border-slate-200/80 flex items-center gap-1.5 shadow-2xs">
-                <Flame className="w-3.5 h-3.5 text-amber-500" />
-                <span>{machine.heatingType} Heating</span>
-              </span>
-            </div>
+            {/* Interactive 4-Image Hero Showcase & Fullscreen Lightbox */}
+            <MachineDetailGallery
+              images={getMachineImages(machine)}
+              name={machine.name}
+              modelCode={machine.modelCode}
+              categoryId={machine.categoryId}
+              heatingType={machine.heatingType}
+              inStock={machine.inStock}
+              warrantyYears={machine.warrantyYears}
+            />
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="rounded-2xl bg-slate-50 border border-slate-100 p-3.5">
@@ -453,7 +445,15 @@ export default function MachineDetailView({ category, machine }: MachineDetailVi
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 mb-2">
+                    {/* 4-Image Genuine Spare Part Interactive Gallery */}
+                    <PartCardGallery
+                      images={getPartImages(part)}
+                      name={part.name}
+                      partNumber={part.partNumber}
+                      category={part.category}
+                    />
+
+                    <div className="flex items-center justify-between gap-2 mb-2 mt-2">
                       <span className="font-mono text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
                         {part.partNumber}
                       </span>
@@ -544,6 +544,9 @@ export default function MachineDetailView({ category, machine }: MachineDetailVi
                     fill
                     className="object-contain p-1.5 group-hover:scale-105 transition-transform"
                   />
+                  <span className="absolute bottom-1 right-1 text-[8px] font-extrabold px-1 py-0.5 rounded bg-slate-900/80 text-white backdrop-blur-xs">
+                    4 Views
+                  </span>
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#002B8B]">
@@ -555,7 +558,7 @@ export default function MachineDetailView({ category, machine }: MachineDetailVi
                     {sib.name}
                   </h3>
                   <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
-                    <span>View specs</span>
+                    <span>View specs &amp; 4 photo angles</span>
                     <ArrowRight className="w-3 h-3" />
                   </div>
                 </div>

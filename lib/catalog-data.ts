@@ -5,6 +5,7 @@ export interface MachineCategory {
   tagline: string;
   badge: string;
   image: string;
+  images: [string, string, string, string];
   description: string;
   features: string[];
   capacityRange: string;
@@ -32,6 +33,7 @@ export interface Machine {
   bestFor: string[];
   warrantyYears: number;
   image: string;
+  images: [string, string, string, string];
   inStock: boolean;
   leadTime: string;
   compatiblePartIds: string[];
@@ -53,6 +55,7 @@ export interface SparePart {
   specifications: Record<string, string>;
   description: string;
   image: string;
+  images: [string, string, string, string];
 }
 
 export interface Branch {
@@ -124,6 +127,117 @@ export const BRANCHES: Branch[] = [
   },
 ];
 
+
+export const DEFAULT_CATEGORY_IMAGES: Record<string, [string, string, string, string]> = {
+  'washer-extractor': [
+    '/catalog/washer-extractor.jpg',
+    '/catalog/washer-angle.jpg',
+    '/catalog/washer-drum.jpg',
+    '/catalog/washer-panel.jpg',
+  ],
+  'tumble-dryer': [
+    '/catalog/tumble-dryer.jpg',
+    '/catalog/dryer-angle.jpg',
+    '/catalog/dryer-drum.jpg',
+    '/catalog/dryer-panel.jpg',
+  ],
+  'flatwork-ironer': [
+    '/catalog/flatwork-ironer.jpg',
+    '/catalog/ironer-angle.jpg',
+    '/catalog/ironer-roller.jpg',
+    '/catalog/ironer-controls.jpg',
+  ],
+  'hydro-extractor': [
+    '/catalog/hydro-extractor.jpg',
+    '/catalog/hydro-angle.jpg',
+    '/catalog/hydro-basket.jpg',
+    '/catalog/hydro-controls.jpg',
+  ],
+  'barrier-washer': [
+    '/catalog/barrier-washer.jpg',
+    '/catalog/barrier-angle.jpg',
+    '/catalog/barrier-clean.jpg',
+    '/catalog/barrier-controls.jpg',
+  ],
+  'steam-press': [
+    '/catalog/steam-press.jpg',
+    '/catalog/press-angle.jpg',
+    '/catalog/press-head.jpg',
+    '/catalog/press-controls.jpg',
+  ],
+};
+
+export const CATEGORY_VIEW_LABELS: Record<string, [string, string, string, string]> = {
+  'washer-extractor': ['Front View', '3/4 Perspective', 'Drum & Door', 'Digital Controls'],
+  'tumble-dryer': ['Front View', '3/4 Perspective', 'Reversing Drum', 'Airflow & Controls'],
+  'flatwork-ironer': ['Front View', '3/4 Perspective', 'Heated Roller', 'Safety & Inverter'],
+  'hydro-extractor': ['Front View', '3/4 Perspective', 'Spin Basket', 'Suspension & Brake'],
+  'barrier-washer': ['Soiled Side', '3/4 Perspective', 'Cleanroom Door', 'Interlock Controls'],
+  'steam-press': ['Front View', '3/4 Perspective', 'Pressing Head', 'Pedals & Boiler'],
+};
+
+export const DEFAULT_PART_IMAGES: [string, string, string, string] = [
+  '/catalog/spare-parts-kit.jpg',
+  '/catalog/part-valve.jpg',
+  '/catalog/part-electrical.jpg',
+  '/catalog/part-mechanical.jpg',
+];
+
+export const PART_VIEW_LABELS: [string, string, string, string] = [
+  'Kit Assembly',
+  'Valves & Piping',
+  'Inverter & Controls',
+  'Bearings & Seals',
+];
+
+export function getMachineImages(machine: { image: string; images?: string[]; categoryId: string }): [string, string, string, string] {
+  if (machine.images && machine.images.length >= 4) {
+    return [machine.images[0], machine.images[1], machine.images[2], machine.images[3]];
+  }
+  const categoryImages = DEFAULT_CATEGORY_IMAGES[machine.categoryId] || DEFAULT_CATEGORY_IMAGES['washer-extractor'];
+  return [
+    machine.image || categoryImages[0],
+    categoryImages[1],
+    categoryImages[2],
+    categoryImages[3],
+  ];
+}
+
+export function getMachineViewLabels(categoryId: string): [string, string, string, string] {
+  return CATEGORY_VIEW_LABELS[categoryId] || ['Front View', 'Angle View', 'Interior Detail', 'Control Panel'];
+}
+
+export function getPartImages(part: { image: string; images?: string[]; category?: string }): [string, string, string, string] {
+  if (part.images && part.images.length >= 4) {
+    return [part.images[0], part.images[1], part.images[2], part.images[3]];
+  }
+  if (part.category === 'Electrical & Inverter' || part.category === 'Controls & PCB') {
+    return [
+      '/catalog/part-electrical.jpg',
+      '/catalog/spare-parts-kit.jpg',
+      '/catalog/part-valve.jpg',
+      '/catalog/part-mechanical.jpg',
+    ];
+  }
+  if (part.category === 'Valves & Piping' || part.category === 'Heating & Steam') {
+    return [
+      '/catalog/part-valve.jpg',
+      '/catalog/spare-parts-kit.jpg',
+      '/catalog/part-mechanical.jpg',
+      '/catalog/part-electrical.jpg',
+    ];
+  }
+  if (part.category === 'Mechanical & Drive' || part.category === 'Seals & Gaskets') {
+    return [
+      '/catalog/part-mechanical.jpg',
+      '/catalog/spare-parts-kit.jpg',
+      '/catalog/part-valve.jpg',
+      '/catalog/part-electrical.jpg',
+    ];
+  }
+  return DEFAULT_PART_IMAGES;
+}
+
 export const MACHINE_CATEGORIES: MachineCategory[] = [
   {
     id: 'washer-extractor',
@@ -132,6 +246,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'High-spin, energy-efficient commercial & industrial wash systems',
     badge: 'Most Popular',
     image: '/catalog/washer-extractor.jpg',
+    images: [
+      "/catalog/washer-extractor.jpg",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     description: 'Front-loading commercial soft-mount & hard-mount washer extractors engineered for 24/7 continuous laundry operations in hotels, hospitals, and laundromats with up to 450 G-force spin speed.',
     features: ['High spin 350-450 G-Factor reduces drying time by 40%', 'Microprocessor Touchscreen controls with 30+ wash cycles', 'Stainless Steel AISI 304 heavy-duty drum and tub', 'Inverter frequency drive motor for whisper-quiet performance'],
     capacityRange: '11 kg - 120 kg',
@@ -144,6 +264,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'Rapid radial-axial airflow industrial drying systems',
     badge: 'Fast Turnaround',
     image: '/catalog/tumble-dryer.jpg',
+    images: [
+      "/catalog/tumble-dryer.jpg",
+      "/catalog/dryer-angle.jpg",
+      "/catalog/dryer-drum.jpg",
+      "/catalog/dryer-panel.jpg"
+    ],
     description: 'Energy-saving commercial tumble dryers featuring reversing drums, intelligent humidity moisture sensors, and heavy lint filtration for uniform, wrinkle-free drying.',
     features: ['Reversing drum rotation prevents fabric tangling', 'Dual airflow system (Radial + Axial) for 25% faster drying', 'Precise digital moisture sensors prevent overdrying', 'Available in Electric, High-efficiency Gas & Steam'],
     capacityRange: '11 kg - 77 kg',
@@ -156,6 +282,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'High-speed cylinder & chest ironers for bedsheets and linens',
     badge: 'Hotel Grade',
     image: '/catalog/flatwork-ironer.jpg',
+    images: [
+      "/catalog/flatwork-ironer.jpg",
+      "/catalog/ironer-angle.jpg",
+      "/catalog/ironer-roller.jpg",
+      "/catalog/ironer-controls.jpg"
+    ],
     description: 'Engineered for premium hospitality linen finishing. Delivers mirror-smooth, wrinkle-free bedsheets, duvets, tablecloths, and pillowcases with Nomex ironing belts.',
     features: ['Polished steel cylinder with uniform thermal distribution', 'Nomex heat-resistant feeding and ironing belts', 'Automatic finger-guard emergency brake protection', 'Adjustable speed inverter (1.5 m/min to 9 m/min)'],
     capacityRange: '1.4m - 3.3m Roll Width',
@@ -168,6 +300,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'Ultra high-speed water spin extraction for bulk textiles',
     badge: 'Heavy Industrial',
     image: '/catalog/hydro-extractor.jpg',
+    images: [
+      "/catalog/hydro-extractor.jpg",
+      "/catalog/hydro-angle.jpg",
+      "/catalog/hydro-basket.jpg",
+      "/catalog/hydro-controls.jpg"
+    ],
     description: 'Vertical top-loading centrifugal extractors built for rapid moisture reduction in heavy cotton linens, terry towels, workwear, denim, and raw fabrics before drying.',
     features: ['Direct drive motor with dynamic self-balancing 3-point suspension', 'Cast stainless steel inner cage and perforated basket', 'Automatic pneumatic / mechanical friction brake', 'Safety lid interlock prevents opening while spinning'],
     capacityRange: '15 kg - 100 kg',
@@ -180,6 +318,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'Pass-through dual door partition to eliminate cross-contamination',
     badge: 'Hospital / Cleanroom',
     image: '/catalog/barrier-washer.jpg',
+    images: [
+      "/catalog/barrier-washer.jpg",
+      "/catalog/barrier-angle.jpg",
+      "/catalog/barrier-clean.jpg",
+      "/catalog/barrier-controls.jpg"
+    ],
     description: 'Sanitary barrier washer extractors built inside physical partition walls (dirty room loading / clean room unloading) to guarantee sterile laundry for hospitals and pharmaceuticals.',
     features: ['Hermetic wall seal separates soiled dirty zone from sterile clean zone', 'Dual-door pneumatic interlock ensures only one door opens at a time', 'High-temperature thermal disinfection cycles complying with RABC standards', 'Air-spring vibration dampening with soft-mount suspension'],
     capacityRange: '27 kg - 100 kg',
@@ -192,6 +336,12 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
     tagline: 'Utility garment press, form finishers & vacuum spotting tables',
     badge: 'Garment Finishing',
     image: '/catalog/steam-press.jpg',
+    images: [
+      "/catalog/steam-press.jpg",
+      "/catalog/press-angle.jpg",
+      "/catalog/press-head.jpg",
+      "/catalog/press-controls.jpg"
+    ],
     description: 'Professional commercial garment finishing systems including pneumatic utility presses, steam form finishers, spotting stations, and standalone steam boilers for razor-sharp creases.',
     features: ['Pneumatic rapid head closing with two-hand safety pushbuttons', 'Built-in vacuum exhaust and steam blow pedal controls', 'Nomex padding and silicone foam for long-lasting crisp crease quality', 'Heavy-duty integrated steam boiler generators with auto-refill'],
     capacityRange: 'Utility / Shirt / Form Press',
@@ -227,6 +377,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Star Category Hotels (80-150 rooms)', 'Hospital linen care', 'Commercial on-premise laundry'],
     warrantyYears: 2,
     image: '/catalog/washer-extractor.jpg',
+    images: [
+      '/catalog/washer-extractor.jpg',
+      '/catalog/washer-angle.jpg',
+      '/catalog/washer-drum.jpg',
+      '/catalog/washer-panel.jpg',
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch (In Stock)',
     compatiblePartIds: ['part-dan-vfd-01', 'part-drain-valve-3', 'part-inlet-solenoid-24v', 'part-door-seal-wed', 'part-bearing-seal-kit-450', 'part-heating-elem-9kw'],
@@ -256,6 +412,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Boutique Hotels', 'Hostel Laundries', 'Fitness Clubs & Spas'],
     warrantyYears: 2,
     image: '/catalog/washer-extractor.jpg',
+    images: [
+      "/catalog/washer-extractor.jpg",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-dan-vfd-01', 'part-drain-valve-3', 'part-inlet-solenoid-24v', 'part-door-seal-wed'],
@@ -285,6 +447,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Large Commercial Laundry Plants', '5-Star Hotel Laundries', 'Central Linen Facilities'],
     warrantyYears: 2,
     image: '/catalog/washer-extractor.jpg',
+    images: [
+      "/catalog/washer-extractor.jpg",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     inStock: true,
     leadTime: '7-10 Days Delivery',
     compatiblePartIds: ['part-dan-vfd-01', 'part-drain-valve-3', 'part-bearing-seal-kit-450'],
@@ -314,6 +482,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['High-throughput Laundromats', 'Hotels & Motels', 'Industrial Workwear Laundries'],
     warrantyYears: 3,
     image: '/Speed Queen.png',
+    images: [
+      "/Speed Queen.png",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-sq-vfd-board', 'part-drain-valve-3', 'part-inlet-solenoid-24v', 'part-bearing-seal-kit-450'],
@@ -343,6 +517,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Commercial Laundromats', 'Apartment Buildings', 'Hostels & Gyms'],
     warrantyYears: 2,
     image: '/LG-WS.png',
+    images: [
+      "/LG-WS.png",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-lg-dd-motor', 'part-inlet-solenoid-24v'],
@@ -372,6 +552,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Heavy Industrial Laundry', 'Hospital Linen sterilization', 'Textile Processing'],
     warrantyYears: 1,
     image: '/Girbau-WM.png',
+    images: [
+      "/Girbau-WM.png",
+      "/catalog/washer-angle.jpg",
+      "/catalog/washer-drum.jpg",
+      "/catalog/washer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock - 3 Days',
     compatiblePartIds: ['part-drain-valve-3', 'part-inlet-solenoid-24v', 'part-bearing-seal-kit-450'],
@@ -401,6 +587,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Commercial Hotels', 'Industrial Laundry Lines', 'Healthcare Linen Processing'],
     warrantyYears: 3,
     image: '/catalog/tumble-dryer.jpg',
+    images: [
+      "/catalog/tumble-dryer.jpg",
+      "/catalog/dryer-angle.jpg",
+      "/catalog/dryer-drum.jpg",
+      "/catalog/dryer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-dryer-belt-sq', 'part-blower-impeller-dry', 'part-gas-igniter-valve', 'part-lint-screen-filter'],
@@ -428,6 +620,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Mid-size Hotels', 'Hostels', 'Laundromats'],
     warrantyYears: 2,
     image: '/catalog/tumble-dryer.jpg',
+    images: [
+      "/catalog/tumble-dryer.jpg",
+      "/catalog/dryer-angle.jpg",
+      "/catalog/dryer-drum.jpg",
+      "/catalog/dryer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-dryer-belt-sq', 'part-blower-impeller-dry', 'part-lint-screen-filter'],
@@ -455,6 +653,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Industrial Laundry Facilities', 'Hospital Laundry Plants', 'Resorts & Multi-property groups'],
     warrantyYears: 2,
     image: '/catalog/tumble-dryer.jpg',
+    images: [
+      "/catalog/tumble-dryer.jpg",
+      "/catalog/dryer-angle.jpg",
+      "/catalog/dryer-drum.jpg",
+      "/catalog/dryer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-dryer-belt-sq', 'part-blower-impeller-dry', 'part-lint-screen-filter'],
@@ -482,6 +686,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Commercial Laundromats', 'Gated Community Laundry Rooms', 'Gyms & Spas'],
     warrantyYears: 2,
     image: '/LG-WS.png',
+    images: [
+      "/LG-WS.png",
+      "/catalog/dryer-angle.jpg",
+      "/catalog/dryer-drum.jpg",
+      "/catalog/dryer-panel.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-dryer-belt-sq', 'part-lint-screen-filter'],
@@ -512,6 +722,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Boutique & Star Hotels', 'Hospitals (Sheets & Pillowcases)', 'Linen Hire Services'],
     warrantyYears: 2,
     image: '/catalog/flatwork-ironer.jpg',
+    images: [
+      "/catalog/flatwork-ironer.jpg",
+      "/catalog/ironer-angle.jpg",
+      "/catalog/ironer-roller.jpg",
+      "/catalog/ironer-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'Ready for Commissioning',
     compatiblePartIds: ['part-nomex-belts-iron', 'part-ironer-guide-ribbon', 'part-ironer-gearbox-vfd'],
@@ -539,6 +755,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Banquets & Small Hotels', 'Care Homes', 'Bed & Breakfasts'],
     warrantyYears: 2,
     image: '/catalog/flatwork-ironer.jpg',
+    images: [
+      "/catalog/flatwork-ironer.jpg",
+      "/catalog/ironer-angle.jpg",
+      "/catalog/ironer-roller.jpg",
+      "/catalog/ironer-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-nomex-belts-iron', 'part-ironer-guide-ribbon'],
@@ -566,6 +788,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Large Commercial Laundry Plants', '5-Star Resort Chains', 'Railway / Aviation Linens'],
     warrantyYears: 1,
     image: '/catalog/flatwork-ironer.jpg',
+    images: [
+      "/catalog/flatwork-ironer.jpg",
+      "/catalog/ironer-angle.jpg",
+      "/catalog/ironer-roller.jpg",
+      "/catalog/ironer-controls.jpg"
+    ],
     inStock: true,
     leadTime: '10 Days Lead Time',
     compatiblePartIds: ['part-nomex-belts-iron', 'part-ironer-guide-ribbon', 'part-ironer-gearbox-vfd'],
@@ -598,6 +826,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Commercial Laundries', 'Yarn & Garment Dyeing Houses', 'Terry Towel & Denim Mills'],
     warrantyYears: 2,
     image: '/catalog/hydro-extractor.jpg',
+    images: [
+      "/catalog/hydro-extractor.jpg",
+      "/catalog/hydro-angle.jpg",
+      "/catalog/hydro-basket.jpg",
+      "/catalog/hydro-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-hydro-brake-shoes', 'part-hydro-suspension-spring', 'part-bearing-seal-kit-450'],
@@ -627,6 +861,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Bulk Industrial Laundries', 'Knitting & Export Garment Factories', 'Large Hotel Laundries'],
     warrantyYears: 2,
     image: '/catalog/hydro-extractor.jpg',
+    images: [
+      "/catalog/hydro-extractor.jpg",
+      "/catalog/hydro-angle.jpg",
+      "/catalog/hydro-basket.jpg",
+      "/catalog/hydro-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-hydro-brake-shoes', 'part-hydro-suspension-spring', 'part-bearing-seal-kit-450'],
@@ -659,6 +899,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Multi-speciality Hospital OTs & ICUs', 'Pharmaceutical cleanrooms', 'Nuclear / High-Care Institutions'],
     warrantyYears: 2,
     image: '/catalog/barrier-washer.jpg',
+    images: [
+      "/catalog/barrier-washer.jpg",
+      "/catalog/barrier-angle.jpg",
+      "/catalog/barrier-clean.jpg",
+      "/catalog/barrier-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-dan-vfd-01', 'part-drain-valve-3', 'part-barrier-door-interlock', 'part-inlet-solenoid-24v'],
@@ -688,6 +934,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Government & Medical College Hospitals', 'Surgical Linen Services', 'Bio-Pharma Facilities'],
     warrantyYears: 2,
     image: '/catalog/barrier-washer.jpg',
+    images: [
+      "/catalog/barrier-washer.jpg",
+      "/catalog/barrier-angle.jpg",
+      "/catalog/barrier-clean.jpg",
+      "/catalog/barrier-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-dan-vfd-01', 'part-drain-valve-3', 'part-barrier-door-interlock'],
@@ -717,6 +969,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Hospitality Uniform Pressing', 'Dry Cleaners & Suit Finishing', 'Garment Export Houses'],
     warrantyYears: 2,
     image: '/catalog/steam-press.jpg',
+    images: [
+      "/catalog/steam-press.jpg",
+      "/catalog/press-angle.jpg",
+      "/catalog/press-head.jpg",
+      "/catalog/press-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
     compatiblePartIds: ['part-press-nomex-padding', 'part-steam-solenoid-valve', 'part-vacuum-motor-impeller'],
@@ -743,6 +1001,12 @@ export const MACHINES: Machine[] = [
     bestFor: ['Dry Cleaning Laundromats', 'Hotel Valet Departments', 'Uniform Rental Businesses'],
     warrantyYears: 1,
     image: '/catalog/steam-press.jpg',
+    images: [
+      "/catalog/steam-press.jpg",
+      "/catalog/press-angle.jpg",
+      "/catalog/press-head.jpg",
+      "/catalog/press-controls.jpg"
+    ],
     inStock: true,
     leadTime: 'In Stock',
     compatiblePartIds: ['part-steam-solenoid-valve', 'part-vacuum-motor-impeller'],
@@ -772,6 +1036,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Factory pre-programmed variable frequency inverter drive engineered for smooth progressive drum acceleration from gentle wash tumble to 450 G-force high spin.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-electrical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-mechanical.jpg"
+    ],
   },
   {
     id: 'part-sq-vfd-board',
@@ -793,6 +1063,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Genuine OEM drive unit controlling variable drum rotation and regenerative electric braking on Speed Queen commercial softmount washer extractors.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-electrical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-mechanical.jpg"
+    ],
   },
 
   // --- VALVES & PIPING ---
@@ -817,6 +1093,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Heavy-duty industrial motorized drain valve engineered to discharge up to 300 liters/minute without clogging from lint, hair, or coins. Non-corrosive chemical resistant body.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-inlet-solenoid-24v',
@@ -839,6 +1121,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'High-flow brass & thermoplastic water inlet valve with built-in dirt strainer mesh. Resists lime scale buildup and handles high-temperature water up to 90°C.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
 
   // --- MECHANICAL & DRIVE ---
@@ -862,6 +1150,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Precision drum shaft bearing and seal overhaul kit. Protects the main shaft against chemical corrosion and water penetration under 450 G-force spin cycles.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-lg-dd-motor',
@@ -883,6 +1177,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Ultra-reliable direct drive stator and rotor assembly without belts, pulleys, or carbon brushes, providing silent 1,000 RPM extraction.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-dryer-belt-sq',
@@ -904,6 +1204,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Kevlar-reinforced high temperature drive belt designed for commercial dryers to eliminate slipping under heavy wet linen loads.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-hydro-brake-shoes',
@@ -925,6 +1231,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Heavy-duty brake shoe assembly providing rapid, smooth deceleration for 1,450 RPM hydro extractor spinning baskets in under 20 seconds.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-hydro-suspension-spring',
@@ -945,6 +1257,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Heavy duty self-balancing 3-point hanging suspension kit that absorbs out-of-balance centrifugal vibration during spinning.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
 
   // --- SEALS & GASKETS ---
@@ -968,6 +1286,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Seamless circular silicone door bellow with stainless steel tension clamp ring. Prevents front door water leakage during heavy chemical wash cycles.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
 
   // --- HEATING & STEAM ---
@@ -992,6 +1316,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'High-grade Incoloy heating element engineered to resist scale encrustation and detergent corrosion for rapid wash water temperature rise up to 90°C.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-gas-igniter-valve',
@@ -1013,6 +1343,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Precision electronic gas control safety unit featuring instant flame monitoring and auto shutoff if flameout is detected.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-blower-impeller-dry',
@@ -1033,6 +1369,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Curved blade high-airflow blower wheel that maintains continuous negative exhaust pressure for rapid moisture evacuation.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-lint-screen-filter',
@@ -1053,6 +1395,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Ergonomic pull-out lint screen that traps over 98% of fabric lint, safeguarding exhaust ducting from fire hazards and clogs.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-steam-solenoid-valve',
@@ -1074,6 +1422,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Heavy forged brass steam solenoid valve designed specifically for instantaneous steam injection in presses, ironers, and commercial steam wash cycles.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-valve.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-mechanical.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
 
   // --- CONTROLS & PCB ---
@@ -1097,6 +1451,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Premium heat-resistant Nomex feeding and ironing belts that provide smooth, mark-free linen transport across heated cylinders.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-ironer-guide-ribbon',
@@ -1118,6 +1478,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Durable anti-stretch guide ribbons that ensure flat linen separates cleanly from the heated cylinder into the return table.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-ironer-gearbox-vfd',
@@ -1138,6 +1504,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Precision drive system allowing micro-speed adjustment from 1.5 to 8 meters/minute for optimal drying and ironing thickness.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-barrier-door-interlock',
@@ -1158,6 +1530,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Certified medical-grade interlock ensuring that loading dirty doors and unloading clean doors can never unlock simultaneously.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-electrical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-mechanical.jpg"
+    ],
   },
   {
     id: 'part-press-nomex-padding',
@@ -1178,6 +1556,12 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'High-resilience steam-permeable padding set providing balanced steam distribution and wrinkle-free crease pressing.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
   {
     id: 'part-vacuum-motor-impeller',
@@ -1199,5 +1583,11 @@ export const SPARE_PARTS: SparePart[] = [
     },
     description: 'Instant-start centrifugal vacuum motor that rapidly removes moisture and cools pressed garments to set the crease permanently.',
     image: '/catalog/spare-parts-kit.jpg',
+    images: [
+      "/catalog/part-mechanical.jpg",
+      "/catalog/spare-parts-kit.jpg",
+      "/catalog/part-valve.jpg",
+      "/catalog/part-electrical.jpg"
+    ],
   },
 ];

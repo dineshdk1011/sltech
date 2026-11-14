@@ -40,20 +40,18 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       description: category.description,
       url: pageUrl,
       type: 'website',
-      images: [
-        {
-          url: category.image,
-          width: 1200,
-          height: 630,
-          alt: category.name,
-        },
-      ],
+      images: category.images.map((img, i) => ({
+        url: img,
+        width: 1200,
+        height: 896,
+        alt: `${category.name} - View ${i + 1}`,
+      })),
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description: category.description,
-      images: [category.image],
+      images: category.images,
     },
   };
 }

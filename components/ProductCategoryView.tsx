@@ -33,6 +33,9 @@ import {
 } from '@/lib/catalog-data';
 import { NAP } from '@/lib/site';
 import { useCart } from './CartContext';
+import CategoryCardGallery from './CategoryCardGallery';
+import ProductCardGallery from './ProductCardGallery';
+import PartCardGallery from './PartCardGallery';
 
 interface ProductCategoryViewProps {
   category: MachineCategory;
@@ -390,15 +393,14 @@ export default function ProductCategoryView({ category }: ProductCategoryViewPro
           {/* Right Product Image Showcase */}
           <div className="lg:col-span-5">
             <div className="rounded-3xl border border-white bg-white/90 p-5 shadow-xl shadow-blue-950/5 space-y-4">
-              <div className="relative h-64 sm:h-72 w-full rounded-2xl bg-gradient-to-b from-[#F9FBFE] to-[#EEF5FD] border border-slate-100 overflow-hidden flex items-center justify-center p-4">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  priority
-                  className="object-contain p-3"
-                />
-              </div>
+              <CategoryCardGallery
+                images={category.images}
+                name={category.name}
+                badge={category.badge}
+                modelCount={categoryMachines.length}
+                categoryId={category.id}
+                imageHeight="h-64 sm:h-72"
+              />
 
               <div className="space-y-2 pt-1">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
@@ -663,30 +665,16 @@ export default function ProductCategoryView({ category }: ProductCategoryViewPro
                           </span>
                         </div>
 
-                        {/* Clickable Image -> Individual Machine Page */}
-                        <Link
+                        {/* 4-Image Interactive Gallery */}
+                        <ProductCardGallery
+                          images={machine.images}
+                          alt={machine.name}
                           href={`/products/${category.id}/${machine.id}`}
-                          className="relative block h-48 w-full rounded-2xl bg-gradient-to-b from-[#F9FBFE] to-[#EEF5FD] overflow-hidden my-2 border border-slate-100"
-                        >
-                          <Image
-                            src={machine.image}
-                            alt={machine.name}
-                            fill
-                            className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <span className="absolute bottom-2.5 left-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/95 text-slate-700 shadow-xs flex items-center gap-1">
-                            <Flame className="w-3 h-3 text-amber-500" />
-                            <span>{machine.heatingType}</span>
-                          </span>
-                          <span className="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold text-slate-500 bg-white/90 px-2 py-0.5 rounded-md border border-slate-100">
-                            {machine.modelCode}
-                          </span>
-                          {machine.inStock && (
-                            <span className="absolute top-2.5 left-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              In Stock
-                            </span>
-                          )}
-                        </Link>
+                          categoryId={category.id}
+                          heatingType={machine.heatingType}
+                          modelCode={machine.modelCode}
+                          inStock={machine.inStock}
+                        />
 
                         {/* Machine Title */}
                         <Link
@@ -892,22 +880,13 @@ export default function ProductCategoryView({ category }: ProductCategoryViewPro
                         </span>
                       </div>
 
-                      <div className="relative h-40 w-full rounded-2xl bg-slate-50 overflow-hidden my-2 border border-slate-100">
-                        <Image
-                          src={part.image}
-                          alt={part.name}
-                          fill
-                          className="object-cover"
-                        />
-                        <span className="absolute bottom-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-900/80 text-white backdrop-blur-xs">
-                          {part.category}
-                        </span>
-                        {part.genuineOem && (
-                          <span className="absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded bg-white/95 text-[#002B8B] shadow-xs">
-                            {part.priceIndicator}
-                          </span>
-                        )}
-                      </div>
+                      {/* 4-Image Spare Part Gallery */}
+                      <PartCardGallery
+                        images={part.images}
+                        name={part.name}
+                        partNumber={part.partNumber}
+                        category={part.category}
+                      />
 
                       <h3 className="text-sm font-extrabold text-slate-900 mt-3 leading-snug">
                         {part.name}
