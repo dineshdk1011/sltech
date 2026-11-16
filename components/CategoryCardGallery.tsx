@@ -21,7 +21,7 @@ export default function CategoryCardGallery({
   badge,
   modelCount,
   categoryId,
-  imageHeight = 'h-52',
+  imageHeight = 'h-60 sm:h-64',
   showFullscreen = true,
 }: CategoryCardGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -105,7 +105,7 @@ export default function CategoryCardGallery({
     >
       {/* Main Image View */}
       <div
-        className={`relative ${imageHeight} w-full rounded-2xl bg-gradient-to-b from-[#F9FBFE] to-[#EEF5FD] overflow-hidden flex items-center justify-center p-3 border border-slate-100 group/cat`}
+        className={`relative ${imageHeight} w-full rounded-2xl bg-gradient-to-b from-white via-slate-50/80 to-blue-50/30 overflow-hidden flex items-center justify-center p-1 sm:p-2 border border-slate-100 group/cat`}
       >
         <button
           type="button"
@@ -120,7 +120,7 @@ export default function CategoryCardGallery({
             alt={`${name} - ${viewLabels[activeIndex] || `View ${activeIndex + 1}`}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-2 group-hover/cat:scale-105 transition-transform duration-300"
+            className="object-contain p-1 group-hover/cat:scale-105 transition-transform duration-300"
           />
         </button>
 
@@ -207,7 +207,7 @@ export default function CategoryCardGallery({
               onClick={(e) => selectImage(e, idx)}
               onMouseEnter={() => setActiveIndex(idx)}
               title={`Switch to ${label}`}
-              className={`group/thumb relative h-11 sm:h-12 rounded-lg overflow-hidden border transition-all duration-200 bg-slate-50 focus:outline-none cursor-pointer flex items-center justify-center p-0.5 ${
+              className={`group/thumb relative h-11 sm:h-12 rounded-lg overflow-hidden border transition-all duration-200 bg-white focus:outline-none cursor-pointer flex items-center justify-center p-0.5 ${
                 isActive
                   ? 'border-[#002B8B] ring-2 ring-[#002B8B]/30 shadow-xs bg-blue-50/40'
                   : 'border-slate-200 hover:border-blue-300 opacity-80 hover:opacity-100'

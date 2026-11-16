@@ -68,13 +68,13 @@ export default function PartCardGallery({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Main Image Frame */}
-      <div className="relative h-44 w-full rounded-2xl bg-gradient-to-b from-slate-50 to-slate-100/80 overflow-hidden border border-slate-100 flex items-center justify-center p-2 group/part">
+      <div className="relative h-48 sm:h-52 w-full rounded-2xl bg-gradient-to-b from-white via-slate-50/80 to-slate-100/40 overflow-hidden border border-slate-100 flex items-center justify-center p-1.5 sm:p-2 group/part">
         <Image
           src={safeImages[activeIndex]}
           alt={`${name} - ${viewLabels[activeIndex] || `Angle ${activeIndex + 1}`}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover group-hover/part:scale-105 transition-transform duration-300"
+          className="object-contain p-1.5 transition-transform duration-300 group-hover/part:scale-105"
         />
 
         {/* Top Badges */}
@@ -134,7 +134,7 @@ export default function PartCardGallery({
               onClick={(e) => selectImage(e, idx)}
               onMouseEnter={() => setActiveIndex(idx)}
               title={label}
-              className={`relative h-10 rounded-lg overflow-hidden border transition-all duration-200 bg-slate-50 focus:outline-none ${
+              className={`relative h-11 rounded-lg overflow-hidden border transition-all duration-200 bg-white flex items-center justify-center p-0.5 focus:outline-none ${
                 isActive
                   ? 'border-emerald-600 ring-2 ring-emerald-500/30 shadow-xs'
                   : 'border-slate-200 hover:border-slate-400 opacity-75 hover:opacity-100'
@@ -145,7 +145,7 @@ export default function PartCardGallery({
                 alt={label}
                 fill
                 sizes="60px"
-                className="object-cover"
+                className="object-contain p-0.5"
               />
             </button>
           );

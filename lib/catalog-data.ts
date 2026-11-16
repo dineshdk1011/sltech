@@ -169,7 +169,7 @@ export const DEFAULT_CATEGORY_IMAGES: Record<string, [string, string, string, st
 
 export const CATEGORY_VIEW_LABELS: Record<string, [string, string, string, string]> = {
   'washer-extractor': ['Front View', '3/4 Perspective', 'Drum & Door', 'Digital Controls'],
-  'tumble-dryer': ['Front View', '3/4 Perspective', 'Reversing Drum', 'Airflow & Controls'],
+  'tumble-dryer': ['Front View', '3/4 Perspective', 'Reversing Drum', 'Heavy-Duty Model'],
   'flatwork-ironer': ['Front View', '3/4 Perspective', 'Heated Roller', 'Safety & Inverter'],
   'hydro-extractor': ['Front View', '3/4 Perspective', 'Spin Basket', 'Suspension & Brake'],
   'barrier-washer': ['Soiled Side', '3/4 Perspective', 'Cleanroom Door', 'Interlock Controls'],

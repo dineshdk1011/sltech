@@ -117,13 +117,13 @@ export default function MachineDetailGallery({
     >
       {/* 1. MAIN LARGE HERO IMAGE SHOWCASE */}
       <div
-        className="group relative h-80 sm:h-96 lg:h-[440px] w-full rounded-3xl bg-gradient-to-b from-[#F9FBFE] via-white to-[#EEF5FD] border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300"
+        className="group relative h-[340px] sm:h-[420px] lg:h-[480px] w-full rounded-3xl bg-gradient-to-b from-white via-slate-50/80 to-blue-50/25 border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300"
       >
         {/* Main Photo Click to Open Lightbox */}
         <button
           type="button"
           onClick={() => setIsLightboxOpen(true)}
-          className="relative h-full w-full p-6 sm:p-8 flex items-center justify-center cursor-zoom-in focus:outline-none"
+          className="relative h-full w-full p-2.5 sm:p-4 flex items-center justify-center cursor-zoom-in focus:outline-none"
           title="Click to view full screen"
         >
           <Image
@@ -132,7 +132,7 @@ export default function MachineDetailGallery({
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+            className="object-contain p-1 sm:p-2 transition-transform duration-300 group-hover:scale-105"
           />
         </button>
 
@@ -240,7 +240,7 @@ export default function MachineDetailGallery({
                 }`}
               >
                 {/* Thumbnail Image Box */}
-                <div className="relative h-14 sm:h-18 w-full rounded-xl overflow-hidden bg-slate-50 flex items-center justify-center border border-slate-100">
+                <div className="relative h-14 sm:h-18 w-full rounded-xl overflow-hidden bg-white flex items-center justify-center border border-slate-100">
                   <Image
                     src={imgUrl}
                     alt={label}

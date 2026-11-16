@@ -78,16 +78,16 @@ export default function ProductCardGallery({
       {/* Clickable Main Image Container */}
       <Link
         href={href}
-        className="group/img relative block h-52 w-full rounded-2xl bg-gradient-to-b from-slate-50 via-white to-slate-100 overflow-hidden border border-slate-100 shadow-2xs hover:shadow-md transition-all duration-300"
+        className="group/img relative block h-60 sm:h-64 w-full rounded-2xl bg-gradient-to-b from-white via-slate-50/80 to-blue-50/30 overflow-hidden border border-slate-100 shadow-2xs hover:shadow-md transition-all duration-300"
       >
         {/* Main Active Image with Smooth Fade */}
-        <div className="relative h-full w-full p-3 flex items-center justify-center">
+        <div className="relative h-full w-full p-1.5 sm:p-2 flex items-center justify-center">
           <Image
             src={safeImages[activeIndex]}
             alt={`${alt} - ${viewLabels[activeIndex] || `View ${activeIndex + 1}`}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-2 transition-transform duration-300 group-hover/img:scale-105"
+            className="object-contain p-1 transition-transform duration-300 group-hover/img:scale-105"
           />
         </div>
 
@@ -165,7 +165,7 @@ export default function ProductCardGallery({
               onClick={(e) => selectImage(e, idx)}
               onMouseEnter={() => setActiveIndex(idx)}
               title={label}
-              className={`group/thumb relative h-11 rounded-lg overflow-hidden border transition-all duration-200 bg-slate-50 flex items-center justify-center p-1 focus:outline-none ${
+              className={`group/thumb relative h-11 rounded-lg overflow-hidden border transition-all duration-200 bg-white flex items-center justify-center p-0.5 focus:outline-none ${
                 isActive
                   ? 'border-[#002B8B] ring-2 ring-[#002B8B]/30 shadow-xs bg-blue-50/40'
                   : 'border-slate-200 hover:border-slate-400 opacity-75 hover:opacity-100'
