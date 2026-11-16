@@ -68,6 +68,17 @@ export default function CategoryCardGallery({
     setActiveIndex(index);
   }, []);
 
+  // Auto-scroll every 5 seconds (pauses when hovered or when lightbox is open)
+  useEffect(() => {
+    if (isHovered || isLightboxOpen) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % safeImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, isLightboxOpen, safeImages.length]);
+
   // Keyboard navigation for lightbox
   useEffect(() => {
     if (!isLightboxOpen) return;

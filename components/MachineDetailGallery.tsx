@@ -80,6 +80,17 @@ export default function MachineDetailGallery({
     setActiveIndex(index);
   }, []);
 
+  // Auto-scroll every 5 seconds (pauses when hovered or when lightbox is open)
+  useEffect(() => {
+    if (isHovered || isLightboxOpen) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % safeImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, isLightboxOpen, safeImages.length]);
+
   // Keyboard navigation (arrows navigate photos, Escape closes lightbox)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -99,12 +110,14 @@ export default function MachineDetailGallery({
   }, [isLightboxOpen, prevImage, nextImage]);
 
   return (
-    <div className="space-y-3">
+    <div
+      className="space-y-3"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* 1. MAIN LARGE HERO IMAGE SHOWCASE */}
       <div
         className="group relative h-80 sm:h-96 lg:h-[440px] w-full rounded-3xl bg-gradient-to-b from-[#F9FBFE] via-white to-[#EEF5FD] border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Main Photo Click to Open Lightbox */}
         <button

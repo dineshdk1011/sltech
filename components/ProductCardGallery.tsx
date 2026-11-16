@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Camera, Flame } from 'lucide-react';
@@ -57,6 +57,17 @@ export default function ProductCardGallery({
     e.stopPropagation();
     setActiveIndex(index);
   };
+
+  // Auto-scroll every 5 seconds (pauses when hovered)
+  useEffect(() => {
+    if (isHovered) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % safeImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, safeImages.length]);
 
   return (
     <div
