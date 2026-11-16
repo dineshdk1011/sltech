@@ -5,7 +5,7 @@ import { MessageCircle, X } from 'lucide-react';
 import gsap from 'gsap';
 
 export default function SocialSidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const dockRef = useRef<HTMLDivElement>(null);
   const whatsappRef = useRef<HTMLAnchorElement>(null);
   const instaRef = useRef<HTMLAnchorElement>(null);
@@ -115,7 +115,7 @@ export default function SocialSidebar() {
   return (
     <aside
       aria-label="Instant support and social media channels"
-      className="fixed right-0 top-1/2 z-50 -translate-y-1/2 select-none pointer-events-auto"
+      className="hidden 2xl:block fixed right-0 top-1/2 z-50 -translate-y-1/2 select-none pointer-events-auto"
       style={{ willChange: 'transform' }}
     >
       {/* =========================================================

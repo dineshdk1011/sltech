@@ -139,15 +139,15 @@ export default function Home() {
           </div>
 
           {/* Quick Contact & Verified Hotlines */}
-          <div className="gsap-hero-contacts flex flex-wrap items-center justify-center gap-6 pt-2 text-xs sm:text-sm text-slate-600 font-semibold">
+          <div className="gsap-hero-contacts flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm text-slate-600 font-semibold">
             <a
               href="tel:+919361624107"
               className="flex items-center gap-2 hover:text-[#002B8B] transition-colors"
             >
-              <div className="h-7 w-7 rounded-full bg-blue-100/80 text-[#002B8B] flex items-center justify-center">
+              <div className="h-7 w-7 rounded-full bg-blue-100/80 text-[#002B8B] flex items-center justify-center shrink-0">
                 <Phone className="w-3.5 h-3.5" />
               </div>
-              <span>Hotline: +91 93616 24107</span>
+              <span className="whitespace-nowrap">Hotline: +91 93616 24107</span>
             </a>
 
             <a
@@ -156,28 +156,28 @@ export default function Home() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 transition-colors"
             >
-              <div className="h-7 w-7 rounded-full bg-emerald-100 flex items-center justify-center">
+              <div className="h-7 w-7 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                 <Image src="/WA.png" alt="WhatsApp" width={16} height={16} />
               </div>
-              <span>WhatsApp: +91 81100 12041</span>
+              <span className="whitespace-nowrap">WhatsApp: +91 81100 12041</span>
             </a>
           </div>
 
-          {/* Trust Badges in a clean row */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 border-t border-slate-200/60 max-w-2xl mx-auto">
-            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+          {/* Trust Badges in a clean 2x2 grid on mobile, row on tablet/desktop */}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2.5 sm:gap-6 pt-4 border-t border-slate-200/60 max-w-2xl mx-auto">
+            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>15-Min Quote SLA</span>
             </div>
-            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>100% Genuine OEM Spares</span>
             </div>
-            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>2-Year Factory Warranty</span>
             </div>
-            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+            <div className="gsap-hero-trust-item flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>Pan-India Support</span>
             </div>

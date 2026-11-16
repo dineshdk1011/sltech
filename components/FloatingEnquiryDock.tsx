@@ -23,7 +23,7 @@ export default function FloatingEnquiryDock() {
   }, [items.length]);
 
   return (
-    <div ref={dockRef} className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-2.5">
+    <div ref={dockRef} className="fixed bottom-4 sm:bottom-5 right-3 sm:right-5 z-40 flex flex-col items-end gap-2.5">
       {/* Quick WhatsApp / Phone floats if no items */}
       {items.length === 0 ? (
         <div className="flex items-center gap-2">
@@ -47,10 +47,22 @@ export default function FloatingEnquiryDock() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
+          {/* Quick WhatsApp Support even with items in basket */}
+          <a
+            href="https://wa.me/918110012041?text=Hello%20SL%20Laundry%20Tech,%20I%20have%20selected%20items%20for%20enquiry%20and%20would%20like%20assistance."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:scale-105 transition-transform shrink-0"
+            title="Chat on WhatsApp"
+            aria-label="Chat on WhatsApp"
+          >
+            <Image src="/WA.png" alt="WhatsApp" width={22} height={22} />
+          </a>
+
           {/* Main Selected Items Floating Pill */}
           <button
             onClick={openDrawer}
-            className="group relative flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] px-4 py-3 text-white shadow-2xl shadow-blue-900/40 hover:-translate-y-0.5 hover:shadow-blue-900/60 transition-all cursor-pointer border border-white/20"
+            className="group relative flex items-center gap-2.5 sm:gap-3 rounded-2xl bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] px-3.5 sm:px-4 py-2.5 sm:py-3 text-white shadow-2xl shadow-blue-900/40 hover:-translate-y-0.5 hover:shadow-blue-900/60 transition-all cursor-pointer border border-white/20"
           >
             <span className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-white/20 backdrop-blur-xs">
               <Package className="w-4 h-4 text-white" />
@@ -60,10 +72,10 @@ export default function FloatingEnquiryDock() {
             </span>
 
             <div className="text-left">
-              <div className="text-xs font-black uppercase tracking-wider text-cyan-200">
+              <div className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-cyan-200">
                 Enquiry Basket
               </div>
-              <div className="text-sm font-extrabold text-white">
+              <div className="text-xs sm:text-sm font-extrabold text-white">
                 {items.length} Item{items.length > 1 ? 's' : ''} Selected
               </div>
             </div>
