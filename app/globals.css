@@ -799,16 +799,17 @@ select {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: brandMarquee 28s linear infinite;
+  animation: brandMarquee 30s linear infinite;
 }
 
-.animate-brand-marquee:hover {
+.animate-brand-marquee:hover,
+.animate-brand-marquee:active {
   animation-play-state: paused;
 }
 
 @media (max-width: 640px) {
   .animate-brand-marquee {
-    animation-duration: 22s;
+    animation-duration: 24s;
   }
 }
 

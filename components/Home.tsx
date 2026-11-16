@@ -20,17 +20,17 @@ import { useCart } from './CartContext';
 import CategoryCardGallery from './CategoryCardGallery';
 
 const BRAND_LOGOS = [
-  { name: 'Danube International', src: '/Danube-Logo.png', width: 'w-24 sm:w-28' },
-  { name: 'Speed Queen', src: '/Speed Queen.png', width: 'w-28 sm:w-32' },
-  { name: 'LG Commercial', src: '/LG-WS.png', width: 'w-20 sm:w-24' },
-  { name: 'Girbau Industrial', src: '/Girbau-WM.png', width: 'w-24 sm:w-28' },
-  { name: 'Electrolux Professional', src: '/Electrolux.png', width: 'w-24 sm:w-28' },
-  { name: 'DOMUS Laundry', src: '/DOMUS-Logo.png', width: 'w-20 sm:w-24' },
-  { name: 'IFB Commercial', src: '/IFB-Logo.png', width: 'w-24 sm:w-28' },
-  { name: 'Primus Laundry', src: '/Primus.png', width: 'w-24 sm:w-28' },
-  { name: 'Fagor Commercial', src: '/Fagor-Logo.png', width: 'w-16 sm:w-20' },
-  { name: 'Milnor', src: '/Milnor-Logo.png', width: 'w-20 sm:w-24' },
-  { name: 'Kannegiesser', src: '/Kannegaiser-Logo.png', width: 'w-16 sm:w-20' },
+  { name: 'Danube International', src: '/Danube-Logo.png', width: 'w-28 sm:w-36' },
+  { name: 'Speed Queen', src: '/Speed Queen.png', width: 'w-32 sm:w-44' },
+  { name: 'LG Commercial', src: '/LG-WS.png', width: 'w-24 sm:w-32' },
+  { name: 'Girbau Industrial', src: '/Girbau-WM.png', width: 'w-28 sm:w-38' },
+  { name: 'Electrolux Professional', src: '/Electrolux.png', width: 'w-30 sm:w-40' },
+  { name: 'DOMUS Laundry', src: '/DOMUS-Logo.png', width: 'w-24 sm:w-32' },
+  { name: 'IFB Commercial', src: '/IFB-Logo.png', width: 'w-30 sm:w-40' },
+  { name: 'Primus Laundry', src: '/Primus.png', width: 'w-28 sm:w-38' },
+  { name: 'Fagor Commercial', src: '/Fagor-Logo.png', width: 'w-16 sm:w-22' },
+  { name: 'Milnor', src: '/Milnor-Logo.png', width: 'w-24 sm:w-32' },
+  { name: 'Kannegiesser', src: '/Kannegaiser-Logo.png', width: 'w-16 sm:w-22' },
 ];
 
 export default function Home() {
@@ -200,17 +200,23 @@ export default function Home() {
       </section>
 
       {/* 2. BRAND LOGOS SCROLLING MARQUEE STRIP */}
-      <section className="relative rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 shadow-xs overflow-hidden">
-        <div className="flex items-center justify-between mb-2.5 px-1">
-          <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-            Authorized Dealerships &amp; Global Commercial Makes:
-          </span>
+      <section className="relative rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-gradient-to-b from-white via-slate-50/60 to-white p-4 sm:p-6 shadow-xs overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-4 sm:mb-5 px-1">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-blue-50 text-[#002B8B] border border-blue-200/80 shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-[#002B8B] animate-pulse" />
+              Authorized Dealerships &amp; Global Makes
+            </span>
+            <span className="text-xs font-semibold text-slate-500 hidden md:inline">
+              Commercial Sales, Spares &amp; Support Pan-India
+            </span>
+          </div>
           <Link
             href="/brands"
-            className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-[#002B8B] hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#002B8B] hover:text-[#001f66] group self-start sm:self-auto"
           >
-            <span>Explore All Brands</span>
-            <ArrowRight className="w-3 h-3" />
+            <span>Explore All 11 Global Brands</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
@@ -219,32 +225,32 @@ export default function Home() {
           {/* Left Fade Gradient */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent z-10"
+            className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-24 bg-gradient-to-r from-white via-white/80 to-transparent z-10"
           />
           {/* Right Fade Gradient */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-white via-white/80 to-transparent z-10"
+            className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-24 bg-gradient-to-l from-white via-white/80 to-transparent z-10"
           />
 
           {/* Continuous Infinite Marquee Track */}
-          <div className="animate-brand-marquee flex items-center gap-6 sm:gap-10">
+          <div className="animate-brand-marquee flex items-center gap-4 sm:gap-6">
             {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, i) => (
               <Link
                 key={`${brand.name}-${i}`}
                 href="/brands"
                 title={`${brand.name} - Commercial Laundry Solutions`}
-                className="group inline-flex items-center justify-center shrink-0 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
+                className="group inline-flex items-center justify-center shrink-0 h-16 sm:h-20 px-5 sm:px-7 rounded-2xl bg-white border border-slate-200 shadow-2xs hover:shadow-md hover:border-[#002B8B]/40 hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div
-                  className={`relative ${brand.width} h-7 sm:h-8 grayscale group-hover:grayscale-0 opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-200`}
+                  className={`relative ${brand.width} h-9 sm:h-12 transition-transform duration-200 group-hover:scale-105`}
                 >
                   <Image
                     src={brand.src}
                     alt={brand.name}
                     fill
                     className="object-contain"
-                    sizes="140px"
+                    sizes="(max-width: 640px) 150px, 200px"
                   />
                 </div>
               </Link>
