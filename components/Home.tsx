@@ -19,6 +19,20 @@ import { MACHINE_CATEGORIES, MACHINES, SPARE_PARTS } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
 import CategoryCardGallery from './CategoryCardGallery';
 
+const BRAND_LOGOS = [
+  { name: 'Danube International', src: '/Danube-Logo.png', width: 'w-24 sm:w-28' },
+  { name: 'Speed Queen', src: '/Speed Queen.png', width: 'w-28 sm:w-32' },
+  { name: 'LG Commercial', src: '/LG-WS.png', width: 'w-20 sm:w-24' },
+  { name: 'Girbau Industrial', src: '/Girbau-WM.png', width: 'w-24 sm:w-28' },
+  { name: 'Electrolux Professional', src: '/Electrolux.png', width: 'w-24 sm:w-28' },
+  { name: 'DOMUS Laundry', src: '/DOMUS-Logo.png', width: 'w-20 sm:w-24' },
+  { name: 'IFB Commercial', src: '/IFB-Logo.png', width: 'w-24 sm:w-28' },
+  { name: 'Primus Laundry', src: '/Primus.png', width: 'w-24 sm:w-28' },
+  { name: 'Fagor Commercial', src: '/Fagor-Logo.png', width: 'w-16 sm:w-20' },
+  { name: 'Milnor', src: '/Milnor-Logo.png', width: 'w-20 sm:w-24' },
+  { name: 'Kannegiesser', src: '/Kannegaiser-Logo.png', width: 'w-16 sm:w-20' },
+];
+
 export default function Home() {
   const { openDrawer } = useCart();
 
@@ -185,29 +199,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. BRAND LOGOS STRIP */}
-      <section className="rounded-2xl border border-slate-200/80 bg-white p-5 text-center shadow-xs">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-3">
-          Authorized Dealerships &amp; Global Commercial Makes:
-        </span>
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 opacity-90">
-          <div className="h-7 w-24 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/Danube-Logo.png" alt="Danube" fill className="object-contain" />
-          </div>
-          <div className="h-7 w-28 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/Speed Queen.png" alt="Speed Queen" fill className="object-contain" />
-          </div>
-          <div className="h-7 w-16 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/LG-WS.png" alt="LG Commercial" fill className="object-contain" />
-          </div>
-          <div className="h-7 w-20 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/Girbau-WM.png" alt="Girbau" fill className="object-contain" />
-          </div>
-          <div className="h-7 w-24 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/Electrolux.png" alt="Electrolux" fill className="object-contain" />
-          </div>
-          <div className="h-7 w-20 relative grayscale hover:grayscale-0 transition-all hover:scale-105">
-            <Image src="/DOMUS-Logo.png" alt="DOMUS" fill className="object-contain" />
+      {/* 2. BRAND LOGOS SCROLLING MARQUEE STRIP */}
+      <section className="relative rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 shadow-xs overflow-hidden">
+        <div className="flex items-center justify-between mb-2.5 px-1">
+          <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">
+            Authorized Dealerships &amp; Global Commercial Makes:
+          </span>
+          <Link
+            href="/brands"
+            className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-[#002B8B] hover:underline"
+          >
+            <span>Explore All Brands</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+
+        {/* Marquee Viewport with Edge Fade Gradients */}
+        <div className="relative overflow-hidden w-full py-1">
+          {/* Left Fade Gradient */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent z-10"
+          />
+          {/* Right Fade Gradient */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-white via-white/80 to-transparent z-10"
+          />
+
+          {/* Continuous Infinite Marquee Track */}
+          <div className="animate-brand-marquee flex items-center gap-6 sm:gap-10">
+            {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, i) => (
+              <Link
+                key={`${brand.name}-${i}`}
+                href="/brands"
+                title={`${brand.name} - Commercial Laundry Solutions`}
+                className="group inline-flex items-center justify-center shrink-0 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors"
+              >
+                <div
+                  className={`relative ${brand.width} h-7 sm:h-8 grayscale group-hover:grayscale-0 opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-200`}
+                >
+                  <Image
+                    src={brand.src}
+                    alt={brand.name}
+                    fill
+                    className="object-contain"
+                    sizes="140px"
+                  />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

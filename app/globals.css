@@ -782,3 +782,38 @@ select {
     animation: none;
   }
 }
+
+/* =========================================================
+   BRAND LOGOS INFINITE SCROLLING MARQUEE
+========================================================= */
+@keyframes brandMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-brand-marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: brandMarquee 28s linear infinite;
+}
+
+.animate-brand-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .animate-brand-marquee {
+    animation-duration: 22s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-brand-marquee {
+    animation: none;
+  }
+}
