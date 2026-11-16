@@ -139,13 +139,13 @@ export const DEFAULT_CATEGORY_IMAGES: Record<string, [string, string, string, st
     '/catalog/tumble-dryer.jpg',
     '/catalog/dryer-angle.jpg',
     '/catalog/dryer-drum.jpg',
-    '/catalog/dryer-panel.jpg',
+    '/catalog/dryer-full-view.jpg',
   ],
   'flatwork-ironer': [
     '/catalog/flatwork-ironer.jpg',
     '/catalog/ironer-angle.jpg',
     '/catalog/ironer-roller.jpg',
-    '/catalog/ironer-controls.jpg',
+    '/catalog/ironer-full-view.jpg',
   ],
   'hydro-extractor': [
     '/catalog/hydro-extractor.jpg',
@@ -169,8 +169,8 @@ export const DEFAULT_CATEGORY_IMAGES: Record<string, [string, string, string, st
 
 export const CATEGORY_VIEW_LABELS: Record<string, [string, string, string, string]> = {
   'washer-extractor': ['Front View', '3/4 Perspective', 'Drum & Door', 'Digital Controls'],
-  'tumble-dryer': ['Front View', '3/4 Perspective', 'Reversing Drum', 'Heavy-Duty Model'],
-  'flatwork-ironer': ['Front View', '3/4 Perspective', 'Heated Roller', 'Safety & Inverter'],
+  'tumble-dryer': ['Front View', '3/4 Perspective', 'Reversing Drum', 'Full Machine Model'],
+  'flatwork-ironer': ['Front View', '3/4 Perspective', 'Heated Roller', 'Full Bed Ironer'],
   'hydro-extractor': ['Front View', '3/4 Perspective', 'Spin Basket', 'Suspension & Brake'],
   'barrier-washer': ['Soiled Side', '3/4 Perspective', 'Cleanroom Door', 'Interlock Controls'],
   'steam-press': ['Front View', '3/4 Perspective', 'Pressing Head', 'Pedals & Boiler'],
@@ -268,7 +268,7 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
       "/catalog/tumble-dryer.jpg",
       "/catalog/dryer-angle.jpg",
       "/catalog/dryer-drum.jpg",
-      "/catalog/dryer-panel.jpg"
+      "/catalog/dryer-full-view.jpg"
     ],
     description: 'Energy-saving commercial tumble dryers featuring reversing drums, intelligent humidity moisture sensors, and heavy lint filtration for uniform, wrinkle-free drying.',
     features: ['Reversing drum rotation prevents fabric tangling', 'Dual airflow system (Radial + Axial) for 25% faster drying', 'Precise digital moisture sensors prevent overdrying', 'Available in Electric, High-efficiency Gas & Steam'],
@@ -286,7 +286,7 @@ export const MACHINE_CATEGORIES: MachineCategory[] = [
       "/catalog/flatwork-ironer.jpg",
       "/catalog/ironer-angle.jpg",
       "/catalog/ironer-roller.jpg",
-      "/catalog/ironer-controls.jpg"
+      "/catalog/ironer-full-view.jpg"
     ],
     description: 'Engineered for premium hospitality linen finishing. Delivers mirror-smooth, wrinkle-free bedsheets, duvets, tablecloths, and pillowcases with Nomex ironing belts.',
     features: ['Polished steel cylinder with uniform thermal distribution', 'Nomex heat-resistant feeding and ironing belts', 'Automatic finger-guard emergency brake protection', 'Adjustable speed inverter (1.5 m/min to 9 m/min)'],
@@ -591,7 +591,7 @@ export const MACHINES: Machine[] = [
       "/catalog/tumble-dryer.jpg",
       "/catalog/dryer-angle.jpg",
       "/catalog/dryer-drum.jpg",
-      "/catalog/dryer-panel.jpg"
+      "/catalog/dryer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
@@ -624,7 +624,7 @@ export const MACHINES: Machine[] = [
       "/catalog/tumble-dryer.jpg",
       "/catalog/dryer-angle.jpg",
       "/catalog/dryer-drum.jpg",
-      "/catalog/dryer-panel.jpg"
+      "/catalog/dryer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'In Stock',
@@ -657,7 +657,7 @@ export const MACHINES: Machine[] = [
       "/catalog/tumble-dryer.jpg",
       "/catalog/dryer-angle.jpg",
       "/catalog/dryer-drum.jpg",
-      "/catalog/dryer-panel.jpg"
+      "/catalog/dryer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'Immediate Dispatch',
@@ -690,7 +690,7 @@ export const MACHINES: Machine[] = [
       "/LG-WS.png",
       "/catalog/dryer-angle.jpg",
       "/catalog/dryer-drum.jpg",
-      "/catalog/dryer-panel.jpg"
+      "/catalog/dryer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'In Stock',
@@ -726,7 +726,7 @@ export const MACHINES: Machine[] = [
       "/catalog/flatwork-ironer.jpg",
       "/catalog/ironer-angle.jpg",
       "/catalog/ironer-roller.jpg",
-      "/catalog/ironer-controls.jpg"
+      "/catalog/ironer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'Ready for Commissioning',
@@ -759,7 +759,7 @@ export const MACHINES: Machine[] = [
       "/catalog/flatwork-ironer.jpg",
       "/catalog/ironer-angle.jpg",
       "/catalog/ironer-roller.jpg",
-      "/catalog/ironer-controls.jpg"
+      "/catalog/ironer-full-view.jpg"
     ],
     inStock: true,
     leadTime: 'In Stock',
@@ -792,7 +792,7 @@ export const MACHINES: Machine[] = [
       "/catalog/flatwork-ironer.jpg",
       "/catalog/ironer-angle.jpg",
       "/catalog/ironer-roller.jpg",
-      "/catalog/ironer-controls.jpg"
+      "/catalog/ironer-full-view.jpg"
     ],
     inStock: true,
     leadTime: '10 Days Lead Time',
