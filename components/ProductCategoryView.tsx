@@ -47,7 +47,14 @@ export default function ProductCategoryView({ category }: ProductCategoryViewPro
   const searchParams = useSearchParams();
   const { addItem, hasItem, items, openDrawer } = useCart();
 
-  const [selectedBrand, setSelectedBrand] = useState<string>('all');
+  const brandParam = searchParams.get('brand');
+  const [selectedBrand, setSelectedBrand] = useState<string>(brandParam || 'all');
+
+  useEffect(() => {
+    if (brandParam) {
+      setSelectedBrand(brandParam);
+    }
+  }, [brandParam]);
   const [selectedCapacity, setSelectedCapacity] = useState<string>('all');
   const [selectedHeating, setSelectedHeating] = useState<string>('all');
   const [selectedPartCategory, setSelectedPartCategory] = useState<string>('all');

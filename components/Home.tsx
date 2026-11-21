@@ -18,6 +18,46 @@ import {
 import { MACHINE_CATEGORIES, MACHINES, SPARE_PARTS } from '@/lib/catalog-data';
 import { useCart } from './CartContext';
 import CategoryCardGallery from './CategoryCardGallery';
+import CardBrandScroller, { type BrandItem } from './CardBrandScroller';
+
+const BRAND_LOGO_MAP: Record<string, string> = {
+  Danube: '/Danube-Logo.png',
+  'Danube International': '/Danube-Logo.png',
+  'Speed Queen': '/Speed Queen.png',
+  'LG Commercial': '/LG-WS.png',
+  LG: '/LG-WS.png',
+  Girbau: '/Girbau-WM.png',
+  'Girbau Industrial': '/Girbau-WM.png',
+  Electrolux: '/Electrolux.png',
+  'Electrolux Professional': '/Electrolux.png',
+  DOMUS: '/DOMUS-Logo.png',
+  'DOMUS Laundry': '/DOMUS-Logo.png',
+  IFB: '/IFB-Logo.png',
+  'IFB Commercial': '/IFB-Logo.png',
+  Primus: '/Primus.png',
+  'Primus Laundry': '/Primus.png',
+  Fagor: '/Fagor-Logo.png',
+  'Fagor Commercial': '/Fagor-Logo.png',
+  Milnor: '/Milnor-Logo.png',
+  Kannegiesser: '/Kannegaiser-Logo.png',
+  'SL Laundry Tech': '/SL-Logo.png',
+  'SL-Tech': '/SL-Logo.png',
+};
+
+const CATEGORY_BRAND_MAP: Record<string, string[]> = {
+  'washer-extractor': ['Danube', 'Speed Queen', 'LG Commercial', 'Girbau', 'Electrolux', 'DOMUS', 'IFB', 'Primus'],
+  'tumble-dryer': ['Speed Queen', 'Danube', 'LG Commercial', 'Electrolux', 'Girbau', 'DOMUS', 'IFB'],
+  'flatwork-ironer': ['Danube', 'Girbau', 'Electrolux', 'Kannegiesser'],
+  'hydro-extractor': ['SL Laundry Tech', 'Girbau', 'Milnor', 'DOMUS'],
+  'barrier-washer': ['Danube', 'DOMUS', 'Primus', 'Electrolux'],
+  'steam-press': ['SL Laundry Tech', 'Fagor', 'Kannegiesser'],
+  'shoe-washer': ['SL Laundry Tech', 'LG Commercial', 'Danube'],
+  'shoe-dryer': ['SL Laundry Tech', 'Danube'],
+  'ironing-table': ['SL Laundry Tech', 'Fagor'],
+  'bed-press': ['SL Laundry Tech', 'Danube', 'Kannegiesser'],
+  'body-press': ['SL Laundry Tech', 'Fagor'],
+  'steam-boiler': ['SL Laundry Tech', 'Danube'],
+};
 
 const BRAND_LOGOS = [
   { name: 'Danube International', src: '/Danube-Logo.png', width: 'w-28 sm:w-36' },
@@ -284,14 +324,21 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 6 Cards Grid (GSAP Animated) */}
+        {/* Machinery Lines Cards Grid (GSAP Animated) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {MACHINE_CATEGORIES.map((cat, idx) => {
             const catMachines = MACHINES.filter((m) => m.categoryId === cat.id);
             const catPartsCount = SPARE_PARTS.filter((p) =>
               p.applicableCategoryIds.includes(cat.id)
             ).length;
-            const brandNames = Array.from(new Set(catMachines.map((m) => m.brand))).join(', ');
+            const modelBrands = catMachines.map((m) => m.brand);
+            const rawBrandList = Array.from(
+              new Set([...(CATEGORY_BRAND_MAP[cat.id] || []), ...modelBrands])
+            );
+            const categoryBrands: BrandItem[] = rawBrandList.map((brandName) => ({
+              name: brandName,
+              logo: BRAND_LOGO_MAP[brandName] || '/SL-Logo.png',
+            }));
 
             return (
               <div
@@ -301,7 +348,7 @@ export default function Home() {
                 {/* Header Badge */}
                 <div className="flex items-center justify-between text-xs mb-3">
                   <span className="font-mono text-slate-400 font-bold text-[11px]">
-                    0{idx + 1} {'//'}
+                    {String(idx + 1).padStart(2, '0')} {'//'}
                   </span>
                   <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-blue-50 text-[#002B8B] border border-blue-100">
                     {cat.capacityRange}
@@ -326,11 +373,6 @@ export default function Home() {
                     {cat.tagline}
                   </p>
 
-                  <div className="mt-2 text-[11px] text-slate-600 font-medium">
-                    <span className="text-slate-400">Available Brands:</span>{' '}
-                    <strong className="text-slate-800">{brandNames}</strong>
-                  </div>
-
                   {/* Highlight Pills */}
                   <div className="mt-3 flex flex-wrap gap-1.5 text-[11px]">
                     {cat.features.slice(0, 2).map((feat, i) => (
@@ -345,8 +387,15 @@ export default function Home() {
                   </div>
                 </Link>
 
+                {/* Simple Small Brand Scroll Option */}
+                <CardBrandScroller
+                  categoryId={cat.id}
+                  categoryName={cat.shortName}
+                  brands={categoryBrands}
+                />
+
                 {/* View Action Links */}
-                <div className="mt-5 space-y-2">
+                <div className="mt-4 space-y-2">
                   <Link
                     href={`/products/${cat.id}`}
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 hover:bg-[#002B8B] text-white font-bold text-xs transition-colors shadow-sm group-hover:shadow-md"
