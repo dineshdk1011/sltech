@@ -98,10 +98,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 6 Machine Types */}
+        {/* Commercial Machine Types */}
         <div>
           <h3 className="text-gradient-brand mb-3 text-sm font-bold uppercase tracking-wider">
-            6 Machine Types
+            Commercial Machinery
           </h3>
           <ul className="space-y-2 text-xs">
             {MACHINE_CATEGORIES.map((cat) => (

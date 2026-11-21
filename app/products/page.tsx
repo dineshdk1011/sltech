@@ -6,7 +6,7 @@ import { MACHINE_CATEGORIES } from '@/lib/catalog-data';
 import { SITE_URL } from '@/lib/site';
 
 const description =
-  'Browse commercial washer extractors, tumble dryers, flatwork ironers, hydro extractors, barrier washers, steam presses, and 100+ genuine OEM laundry spare parts.';
+  'Browse commercial washer extractors, tumble dryers, shoe washers, shoe dryers, ironing tables, bed presses, body presses, steam boilers, flatwork ironers, and 100+ genuine OEM laundry spare parts.';
 
 export const metadata: Metadata = {
   title: 'Commercial Laundry Products & OEM Spare Parts',

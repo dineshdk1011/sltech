@@ -138,7 +138,7 @@ export default function Home() {
               href="#machines-section"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] hover:brightness-105 text-white font-bold px-7 py-3.5 text-sm shadow-xl shadow-blue-900/20 transition-all hover:-translate-y-0.5 cursor-pointer"
             >
-              <span>Explore 6 Machine Types</span>
+              <span>Explore All Machinery Lines</span>
               <ArrowRight className="w-4 h-4" />
             </a>
 
@@ -259,11 +259,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. THE 6 COMMERCIAL MACHINERY LINES (SIMPLE, BEAUTIFUL, POWERFUL) */}
+      {/* 3. COMMERCIAL MACHINERY LINES (SIMPLE, BEAUTIFUL, POWERFUL) */}
       <section id="machines-section" className="scroll-mt-24 space-y-8">
         <div className="text-center max-w-2xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-wider text-[#002B8B] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-            Our 6 Machinery Lines
+            Our Commercial Machinery Lines
           </span>
           <h2 className="mt-3 text-3xl font-black text-slate-900 tracking-tight sm:text-4xl">
             Choose a Machine Type to View Brands &amp; Sizes
@@ -278,7 +278,7 @@ export default function Home() {
               href="/products"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-[#002B8B] hover:underline"
             >
-              <span>Or browse all 6 lines &amp; spare parts finder</span>
+              <span>Or browse all machinery lines &amp; spare parts finder</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
