@@ -14,16 +14,20 @@ interface CardBrandScrollerProps {
   categoryId: string;
   categoryName: string;
   brands: BrandItem[];
+  index?: number;
 }
 
 export default function CardBrandScroller({
   categoryId,
   categoryName,
   brands,
+  index = 0,
 }: CardBrandScrollerProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const checkScroll = () => {
     const el = scrollRef.current;
@@ -44,6 +48,36 @@ export default function CardBrandScroller({
     };
   }, [brands]);
 
+  // Automatic gentle scroll: advances every 3.5 seconds, staggered per card
+  useEffect(() => {
+    if (isHovered || isInteracting) return;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let timer: NodeJS.Timeout | null = null;
+    const initialDelay = (index % 4) * 600; // gentle staggered offset so cards don't jump simultaneously
+
+    const timeout = setTimeout(() => {
+      timer = setInterval(() => {
+        if (!el) return;
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (maxScroll <= 4) return; // Content fits without scrolling
+
+        if (el.scrollLeft >= maxScroll - 6) {
+          // Smoothly loop back to start
+          el.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          el.scrollBy({ left: 130, behavior: 'smooth' });
+        }
+      }, 3500);
+    }, initialDelay);
+
+    return () => {
+      clearTimeout(timeout);
+      if (timer) clearInterval(timer);
+    };
+  }, [isHovered, isInteracting, brands, index]);
+
   const scroll = (direction: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
@@ -54,10 +88,19 @@ export default function CardBrandScroller({
   if (!brands || brands.length === 0) return null;
 
   return (
-    <div className="mt-3 pt-2.5 border-t border-slate-100/90">
+    <div
+      className="mt-3 pt-2.5 border-t border-slate-100/90"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsInteracting(true)}
+      onTouchEnd={() => {
+        // Resume auto-scrolling 2 seconds after touch interaction ends
+        setTimeout(() => setIsInteracting(false), 2000);
+      }}
+    >
       <div className="flex items-center justify-between text-[11px] mb-1.5 px-0.5">
         <span className="font-bold text-slate-500 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#002B8B]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#002B8B] animate-pulse" />
           Available Brands ({brands.length})
         </span>
 

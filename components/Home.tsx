@@ -47,16 +47,16 @@ const BRAND_LOGO_MAP: Record<string, string> = {
 const CATEGORY_BRAND_MAP: Record<string, string[]> = {
   'washer-extractor': ['Danube', 'Speed Queen', 'LG Commercial', 'Girbau', 'Electrolux', 'DOMUS', 'IFB', 'Primus'],
   'tumble-dryer': ['Speed Queen', 'Danube', 'LG Commercial', 'Electrolux', 'Girbau', 'DOMUS', 'IFB'],
-  'flatwork-ironer': ['Danube', 'Girbau', 'Electrolux', 'Kannegiesser'],
-  'hydro-extractor': ['SL Laundry Tech', 'Girbau', 'Milnor', 'DOMUS'],
-  'barrier-washer': ['Danube', 'DOMUS', 'Primus', 'Electrolux'],
-  'steam-press': ['SL Laundry Tech', 'Fagor', 'Kannegiesser'],
-  'shoe-washer': ['SL Laundry Tech', 'LG Commercial', 'Danube'],
-  'shoe-dryer': ['SL Laundry Tech', 'Danube'],
-  'ironing-table': ['SL Laundry Tech', 'Fagor'],
-  'bed-press': ['SL Laundry Tech', 'Danube', 'Kannegiesser'],
-  'body-press': ['SL Laundry Tech', 'Fagor'],
-  'steam-boiler': ['SL Laundry Tech', 'Danube'],
+  'flatwork-ironer': ['Danube', 'Girbau', 'Electrolux', 'Kannegiesser', 'DOMUS'],
+  'hydro-extractor': ['SL Laundry Tech', 'Girbau', 'Milnor', 'DOMUS', 'Danube'],
+  'barrier-washer': ['Danube', 'DOMUS', 'Primus', 'Electrolux', 'Girbau'],
+  'steam-press': ['SL Laundry Tech', 'Fagor', 'Kannegiesser', 'Danube', 'DOMUS'],
+  'shoe-washer': ['SL Laundry Tech', 'LG Commercial', 'Danube', 'Speed Queen'],
+  'shoe-dryer': ['SL Laundry Tech', 'Danube', 'LG Commercial', 'DOMUS'],
+  'ironing-table': ['SL Laundry Tech', 'Fagor', 'Danube', 'Electrolux'],
+  'bed-press': ['SL Laundry Tech', 'Danube', 'Kannegiesser', 'Fagor'],
+  'body-press': ['SL Laundry Tech', 'Fagor', 'Kannegiesser', 'Danube'],
+  'steam-boiler': ['SL Laundry Tech', 'Danube', 'Fagor', 'Kannegiesser'],
 };
 
 const BRAND_LOGOS = [
@@ -392,6 +392,7 @@ export default function Home() {
                   categoryId={cat.id}
                   categoryName={cat.shortName}
                   brands={categoryBrands}
+                  index={idx}
                 />
 
                 {/* View Action Links */}
