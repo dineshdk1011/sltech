@@ -138,9 +138,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div ref={containerRef} className="space-y-16 pb-16 pt-2">
+    <div ref={containerRef} className="space-y-6 sm:space-y-16 pb-16 pt-2">
       {/* 1. HERO SECTION - CLEAN, SPACIOUS, AUTHORITATIVE */}
-      <section className="relative isolate overflow-hidden rounded-[32px] border border-[#DCEBFA] bg-gradient-to-br from-white via-[#F7FAFE] to-[#EAF4FD] px-6 py-12 sm:px-10 sm:py-16 lg:px-16 lg:py-20 shadow-[0_20px_50px_rgba(0,43,139,0.06)] text-center">
+      <section className="relative isolate overflow-hidden rounded-[24px] sm:rounded-[32px] border border-[#DCEBFA] bg-gradient-to-br from-white via-[#F7FAFE] to-[#EAF4FD] px-4 py-6 sm:px-10 sm:py-16 lg:px-16 lg:py-20 shadow-[0_20px_50px_rgba(0,43,139,0.06)] text-center">
         {/* Subtle background glow */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[#1268D8]/10 blur-3xl" />
@@ -148,32 +148,32 @@ export default function Home() {
           <div className="absolute inset-0 opacity-[0.035] [background-image:linear-gradient(#002B8B_1px,transparent_1px),linear-gradient(90deg,#002B8B_1px,transparent_1px)] [background-size:32px_32px]" />
         </div>
 
-        <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-          {/* Badge */}
-          <div className="gsap-hero-badge inline-flex items-center gap-2 rounded-full border border-[#CCE0F5] bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#002B8B] shadow-xs backdrop-blur-sm">
+        <div className="relative z-10 max-w-3xl mx-auto space-y-4 sm:space-y-6">
+          {/* Badge - Hidden on mobile, shown on tablet/desktop */}
+          <div className="gsap-hero-badge hidden sm:inline-flex items-center gap-2 rounded-full border border-[#CCE0F5] bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#002B8B] shadow-xs backdrop-blur-sm">
             <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Authorized Dealership &amp; Engineering Support</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="gsap-hero-title text-3xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-[54px] lg:leading-[1.12]">
+          <h1 className="gsap-hero-title text-2xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-[54px] sm:leading-tight lg:leading-[1.12]">
             Commercial Laundry Machinery <br />
             <span className="bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] bg-clip-text text-transparent">
               &amp; Genuine Spare Parts
             </span>
           </h1>
 
-          {/* Description */}
-          <p className="gsap-hero-desc text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
+          {/* Description - Hidden on mobile, shown on tablet/desktop */}
+          <p className="gsap-hero-desc hidden sm:block text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
             Sales, turnkey installation, genuine OEM replacement parts, and certified AMC maintenance for{' '}
-            <strong className="text-slate-900 font-bold">6 commercial machine types</strong>. Authorized dealers for{' '}
+            <strong className="text-slate-900 font-bold">12 commercial machine lines</strong>. Authorized dealers for{' '}
             <strong className="text-[#002B8B]">Danube</strong>,{' '}
             <strong className="text-[#002B8B]">Speed Queen</strong>, and{' '}
             <strong className="text-[#002B8B]">LG Commercial</strong> across Tamil Nadu, Kerala &amp; Pan-India.
           </p>
 
-          {/* Quick Action Buttons */}
-          <div className="gsap-hero-actions flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          {/* Quick Action Buttons - Hidden on mobile, shown on tablet/desktop */}
+          <div className="gsap-hero-actions hidden sm:flex sm:flex-row items-center justify-center gap-3 pt-2">
             <a
               href="#machines-section"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] hover:brightness-105 text-white font-bold px-7 py-3.5 text-sm shadow-xl shadow-blue-900/20 transition-all hover:-translate-y-0.5 cursor-pointer"
@@ -192,33 +192,33 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Quick Contact & Verified Hotlines */}
-          <div className="gsap-hero-contacts flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm text-slate-600 font-semibold">
+          {/* Quick Contact & Verified Hotlines - Displayed cleanly below heading on mobile */}
+          <div className="gsap-hero-contacts flex flex-wrap items-center justify-center gap-2.5 sm:gap-6 pt-1 sm:pt-2 text-xs sm:text-sm text-slate-600 font-semibold">
             <a
               href="tel:+919361624107"
-              className="flex items-center gap-2 hover:text-[#002B8B] transition-colors"
+              className="inline-flex items-center gap-2 px-3.5 py-2 sm:p-0 rounded-xl sm:rounded-none bg-blue-50/90 sm:bg-transparent border sm:border-0 border-blue-200/80 text-[#002B8B] hover:text-[#001f66] transition-colors shadow-2xs sm:shadow-none"
             >
-              <div className="h-7 w-7 rounded-full bg-blue-100/80 text-[#002B8B] flex items-center justify-center shrink-0">
-                <Phone className="w-3.5 h-3.5" />
+              <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-blue-100/80 text-[#002B8B] flex items-center justify-center shrink-0">
+                <Phone className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
-              <span className="whitespace-nowrap">Hotline: +91 93616 24107</span>
+              <span className="whitespace-nowrap font-bold sm:font-semibold">Hotline: +91 93616 24107</span>
             </a>
 
             <a
               href="https://wa.me/918110012041?text=Hello%20SL%20Laundry%20Tech,%20I%20am%20looking%20for%20commercial%20laundry%20machines%20and%20spare%20parts."
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 transition-colors"
+              className="inline-flex items-center gap-2 px-3.5 py-2 sm:p-0 rounded-xl sm:rounded-none bg-emerald-50/90 sm:bg-transparent border sm:border-0 border-emerald-200/80 text-emerald-700 hover:text-emerald-800 transition-colors shadow-2xs sm:shadow-none"
             >
-              <div className="h-7 w-7 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+              <div className="h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                 <Image src="/WA.png" alt="WhatsApp" width={16} height={16} />
               </div>
-              <span className="whitespace-nowrap">WhatsApp: +91 81100 12041</span>
+              <span className="whitespace-nowrap font-bold sm:font-semibold">WhatsApp: +91 81100 12041</span>
             </a>
           </div>
 
-          {/* Trust Badges in a clean 2x2 grid on mobile, row on tablet/desktop */}
-          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2.5 sm:gap-6 pt-4 border-t border-slate-200/60 max-w-2xl mx-auto">
+          {/* Trust Badges - Hidden on mobile, shown on tablet/desktop */}
+          <div className="hidden sm:flex sm:flex-wrap items-center justify-center gap-2.5 sm:gap-6 pt-4 border-t border-slate-200/60 max-w-2xl mx-auto">
             <div className="gsap-hero-trust-item flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>15-Min Quote SLA</span>
