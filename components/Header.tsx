@@ -174,12 +174,12 @@ export default function Header() {
             <span className="whitespace-nowrap">+91 93616 24107</span>
           </a>
 
-          {/* Quotation Basket Button */}
+          {/* Quotation Basket Button - Hidden on mobile, visible from sm up */}
           {!isAuthorized && (
             <button
               type="button"
               onClick={openDrawer}
-              className="relative inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#002B8B] to-[#1268D8] hover:from-[#002477] hover:to-[#0f5ec4] text-white font-bold text-xs sm:text-sm px-4 py-2.5 shadow-md shadow-blue-900/15 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer whitespace-nowrap shrink-0"
+              className="relative hidden sm:inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#002B8B] to-[#1268D8] hover:from-[#002477] hover:to-[#0f5ec4] text-white font-bold text-xs sm:text-sm px-4 py-2.5 shadow-md shadow-blue-900/15 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer whitespace-nowrap shrink-0"
             >
               <Package className="h-4 w-4 text-cyan-300 shrink-0" />
               <span className="whitespace-nowrap">Quote</span>
@@ -224,9 +224,14 @@ export default function Header() {
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((isOpen) => !isOpen)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-xs hover:border-[#002B8B] hover:text-[#002B8B] transition-colors lg:hidden cursor-pointer shrink-0"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-xs hover:border-[#002B8B] hover:text-[#002B8B] transition-colors lg:hidden cursor-pointer shrink-0"
           >
             {menuOpen ? <X size={18} strokeWidth={2} /> : <Menu size={18} strokeWidth={2} />}
+            {!isAuthorized && items.length > 0 && !menuOpen && (
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-500 px-1 text-[10px] font-black text-white shadow-xs">
+                {items.length}
+              </span>
+            )}
           </button>
         </div>
       </div>
@@ -275,14 +280,21 @@ export default function Header() {
                     setMenuOpen(false);
                     openDrawer();
                   }}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 bg-gradient-to-r from-[#002B8B] to-[#1268D8] text-white font-bold text-sm shadow-md shadow-blue-900/15 cursor-pointer"
+                  className="w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-gradient-to-r from-[#002B8B] via-[#0753B8] to-[#1268D8] text-white font-bold text-sm shadow-md shadow-blue-900/20 active:scale-[0.99] transition-all cursor-pointer"
                 >
-                  <Package className="w-4 h-4 text-cyan-300" />
-                  <span>
-                    {items.length > 0
-                      ? `Quotation Basket (${items.length} items)`
-                      : 'Open Quotation Basket'}
-                  </span>
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-7 w-7 rounded-lg bg-white/15 flex items-center justify-center shrink-0">
+                      <Package className="w-4 h-4 text-cyan-300" />
+                    </div>
+                    <span className="font-bold tracking-tight">Instant Quotation Basket</span>
+                  </div>
+                  {items.length > 0 ? (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-2 text-[11px] font-black text-white shadow-xs">
+                      {items.length} {items.length === 1 ? 'item' : 'items'}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-blue-200 font-semibold">View Basket</span>
+                  )}
                 </button>
               </li>
             )}
