@@ -7,13 +7,12 @@ const manrope = Manrope({ subsets: ["latin"] });
 
 const socialLinks = [
   {
-    name: "Instagram",
-    href: "https://www.instagram.com/sanjithloganathan/",
+    name: "WhatsApp",
+    href: "https://wa.me/918110012041?text=Hello%20SL%20Laundry%20Tech,%20I%20am%20looking%20for%20commercial%20laundry%20machines%20and%20spare%20parts.",
     icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20.4 11.7a8.4 8.4 0 0 1-12.5 7.3L4 20l1.1-3.7A8.4 8.4 0 1 1 20.4 11.7Z" />
+        <path d="M8.7 8.6c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c.5.9 1.2 1.5 2.1 2l.6-.5c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.3.6-.2.8-.8 1.4-1.6 1.5-1.1.1-2.9-.8-4.2-2.1-1.3-1.3-2.1-3-2-4.1 0-.5.3-.9.7-1.1Z" />
       </svg>
     ),
   },
@@ -21,11 +20,31 @@ const socialLinks = [
     name: "Facebook",
     href: "https://www.facebook.com/profile.php?id=61593101758218",
     icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
         <path
           d="M14 8h3V4h-3c-3.3 0-5 2-5 5v3H6v4h3v8h4v-8h3.5l.5-4H13V9c0-.7.3-1 1-1z"
-          fill="currentColor"
-          stroke="none"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/sanjithloganathan/",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.9">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    name: "YouTube",
+    href: "https://www.youtube.com/@sllaundrytech",
+    icon: (
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+        <path
+          d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
         />
       </svg>
     ),
@@ -34,7 +53,7 @@ const socialLinks = [
     name: "LinkedIn",
     href: "https://www.linkedin.com/company/143599197",
     icon: (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.9">
         <rect x="4" y="4" width="16" height="16" rx="2" />
         <path d="M8 10v7M8 7.5v.1M12 17v-4c0-1.7 1-3 2.5-3s2.5 1.1 2.5 3v4M12 10v7" />
       </svg>
@@ -88,9 +107,9 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Follow SL Laundry Tech on ${social.name}`}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#CFE0F2] bg-white text-[#0753B8] shadow-xs transition-all hover:-translate-y-0.5 hover:border-[#1268D8] hover:bg-[#EAF4FD]"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#CFE0F2] bg-white text-[#0753B8] shadow-xs transition-all hover:-translate-y-0.5 hover:border-[#1268D8] hover:bg-[#EAF4FD] hover:text-[#002B8B]"
               >
-                <span className="h-4 w-4 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:stroke-current [&_svg]:fill-none [&_svg]:stroke-[1.8]">
+                <span className="h-4 w-4 [&_svg]:h-4 [&_svg]:w-4 flex items-center justify-center">
                   {social.icon}
                 </span>
               </a>

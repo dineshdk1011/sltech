@@ -45,15 +45,18 @@ export const NAP = {
  * association strengthens immediately.
  */
 export const SOCIAL_PROFILES = {
+  whatsapp: 'https://wa.me/918110012041',
+  facebook: 'https://www.facebook.com/profile.php?id=61593101758218',
   instagram: 'https://www.instagram.com/sanjithloganathan/',
-  facebook:
-    'https://www.facebook.com/profile.php?id=61593101758218',
+  youtube: 'https://www.youtube.com/@sllaundrytech',
   linkedin: 'https://www.linkedin.com/company/143599197',
 } as const;
 
 export const sameAsProfiles = [
-  SOCIAL_PROFILES.instagram,
+  SOCIAL_PROFILES.whatsapp,
   SOCIAL_PROFILES.facebook,
+  SOCIAL_PROFILES.instagram,
+  SOCIAL_PROFILES.youtube,
   SOCIAL_PROFILES.linkedin,
 ];
 

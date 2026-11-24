@@ -10,6 +10,7 @@ export default function SocialSidebar() {
   const whatsappRef = useRef<HTMLAnchorElement>(null);
   const instaRef = useRef<HTMLAnchorElement>(null);
   const fbRef = useRef<HTMLAnchorElement>(null);
+  const ytRef = useRef<HTMLAnchorElement>(null);
 
   // Silky smooth GSAP Wave Animation loop
   useEffect(() => {
@@ -107,6 +108,25 @@ export default function SocialSidebar() {
             ease: 'sine.out',
           });
       }
+
+      // YouTube Pulse Zoom (seamlessly flows in right as Facebook finishes)
+      if (ytRef.current) {
+        masterWave
+          .to(
+            ytRef.current,
+            {
+              scale: 1.15,
+              duration: 0.28,
+              ease: 'power2.out',
+            },
+            '-=0.15'
+          )
+          .to(ytRef.current, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'sine.out',
+          });
+      }
     });
 
     return () => ctx.revert();
@@ -115,7 +135,7 @@ export default function SocialSidebar() {
   return (
     <aside
       aria-label="Instant support and social media channels"
-      className="hidden 2xl:block fixed right-0 top-1/2 z-50 -translate-y-1/2 select-none pointer-events-auto"
+      className="hidden xl:block fixed right-0 top-1/2 z-50 -translate-y-1/2 select-none pointer-events-auto"
       style={{ willChange: 'transform' }}
     >
       {/* =========================================================
@@ -272,6 +292,41 @@ export default function SocialSidebar() {
                   <div className="text-xs font-bold">Official Facebook</div>
                   <div className="text-[10px] font-medium text-slate-300">
                     Laundry Engineers Community
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. YOUTUBE */}
+            <div className="relative group flex items-center justify-center" role="listitem">
+              <a
+                ref={ytRef}
+                href="https://www.youtube.com/@sllaundrytech"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="SL Laundry Tech YouTube Channel"
+                title="SL Laundry Tech YouTube Channel"
+                className="relative inline-flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl border border-red-200/80 bg-white text-[#FF0000] shadow-xs transition-colors duration-200 hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000] hover:shadow-[0_6px_22px_rgba(255,0,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF0000]"
+                style={{ willChange: 'transform' }}
+              >
+                <span className="flex items-center justify-center">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
+                  >
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </span>
+              </a>
+
+              {/* Flyout Tooltip */}
+              <div className="pointer-events-none absolute right-full top-1/2 mr-3 -translate-y-1/2 translate-x-2 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 z-50 hidden sm:block whitespace-nowrap">
+                <div className="rounded-xl border border-slate-700/60 bg-slate-900/95 px-3 py-2 text-white shadow-xl backdrop-blur-md">
+                  <div className="text-xs font-bold">Watch on YouTube</div>
+                  <div className="text-[10px] font-medium text-slate-300">
+                    Machine Demos &amp; Plant Walkthroughs
                   </div>
                 </div>
               </div>

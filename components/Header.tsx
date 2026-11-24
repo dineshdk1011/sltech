@@ -331,6 +331,70 @@ export default function Header() {
                 <span>Call Hotline: +91 93616 24107</span>
               </a>
             </li>
+
+            {/* Mobile Social Channels: WhatsApp, Facebook, Instagram, YouTube */}
+            <li className="pt-2 border-t border-slate-100">
+              <div className="flex items-center justify-center gap-3 py-1">
+                {/* WhatsApp */}
+                <a
+                  href="https://wa.me/918110012041?text=Hello%20SL%20Laundry%20Tech,%20I%20am%20looking%20for%20commercial%20laundry%20machines%20and%20spare%20parts."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="WhatsApp Support"
+                  aria-label="WhatsApp Support"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 text-[#25D366] shadow-2xs hover:bg-[#25D366] hover:text-white transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4">
+                    <path d="M20.4 11.7a8.4 8.4 0 0 1-12.5 7.3L4 20l1.1-3.7A8.4 8.4 0 1 1 20.4 11.7Z" />
+                    <path d="M8.7 8.6c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c.5.9 1.2 1.5 2.1 2l.6-.5c.2-.2.4-.2.7-.1l1.6.8c.3.1.4.3.3.6-.2.8-.8 1.4-1.6 1.5-1.1.1-2.9-.8-4.2-2.1-1.3-1.3-2.1-3-2-4.1 0-.5.3-.9.7-1.1Z" />
+                  </svg>
+                </a>
+
+                {/* Facebook */}
+                <a
+                  href="https://www.facebook.com/profile.php?id=61593101758218"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Facebook"
+                  aria-label="Facebook"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-[#1877F2] shadow-2xs hover:bg-[#1877F2] hover:text-white transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" className="w-4 h-4">
+                    <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v3H6v4h3v8h4v-8h3.5l.5-4H13V9c0-.7.3-1 1-1Z" />
+                  </svg>
+                </a>
+
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/sanjithloganathan/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-pink-200 bg-pink-50 text-[#E1306C] shadow-2xs hover:bg-[#E1306C] hover:text-white transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                </a>
+
+                {/* YouTube */}
+                <a
+                  href="https://www.youtube.com/@sllaundrytech"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="YouTube"
+                  aria-label="YouTube"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-red-200 bg-red-50 text-[#FF0000] shadow-2xs hover:bg-[#FF0000] hover:text-white transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" className="w-4 h-4">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+              </div>
+            </li>
           </ul>
         </nav>
       )}
