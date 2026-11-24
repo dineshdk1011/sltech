@@ -57,6 +57,9 @@ const CATEGORY_BRAND_MAP: Record<string, string[]> = {
   'bed-press': ['SL Laundry Tech', 'Danube', 'Kannegiesser', 'Fagor'],
   'body-press': ['SL Laundry Tech', 'Fagor', 'Kannegiesser', 'Danube'],
   'steam-boiler': ['SL Laundry Tech', 'Danube', 'Fagor', 'Kannegiesser'],
+  'hydrocarbon-dry-cleaner': ['Danube', 'Fagor', 'Electrolux', 'SL Laundry Tech'],
+  'perc-dry-cleaner': ['Danube', 'Electrolux', 'Fagor', 'SL Laundry Tech'],
+  'lg-stacker': ['LG Commercial', 'Speed Queen', 'Danube', 'SL Laundry Tech'],
 };
 
 const BRAND_LOGOS = [
@@ -166,7 +169,7 @@ export default function Home() {
           {/* Description - Hidden on mobile, shown on tablet/desktop */}
           <p className="gsap-hero-desc hidden sm:block text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
             Sales, turnkey installation, genuine OEM replacement parts, and certified AMC maintenance for{' '}
-            <strong className="text-slate-900 font-bold">12 commercial machine lines</strong>. Authorized dealers for{' '}
+            <strong className="text-slate-900 font-bold">15 commercial machine lines</strong>. Authorized dealers for{' '}
             <strong className="text-[#002B8B]">Danube</strong>,{' '}
             <strong className="text-[#002B8B]">Speed Queen</strong>, and{' '}
             <strong className="text-[#002B8B]">LG Commercial</strong> across Tamil Nadu, Kerala &amp; Pan-India.

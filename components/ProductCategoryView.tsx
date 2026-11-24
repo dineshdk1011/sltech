@@ -36,6 +36,31 @@ import { useCart } from './CartContext';
 import CategoryCardGallery from './CategoryCardGallery';
 import ProductCardGallery from './ProductCardGallery';
 import PartCardGallery from './PartCardGallery';
+import CardBrandScroller, { type BrandItem } from './CardBrandScroller';
+
+const BRAND_LOGO_MAP: Record<string, string> = {
+  Danube: '/Danube-Logo.png',
+  'Danube International': '/Danube-Logo.png',
+  'Speed Queen': '/Speed Queen.png',
+  'LG Commercial': '/LG-WS.png',
+  LG: '/LG-WS.png',
+  Girbau: '/Girbau-WM.png',
+  'Girbau Industrial': '/Girbau-WM.png',
+  Electrolux: '/Electrolux.png',
+  'Electrolux Professional': '/Electrolux.png',
+  DOMUS: '/DOMUS-Logo.png',
+  'DOMUS Laundry': '/DOMUS-Logo.png',
+  IFB: '/IFB-Logo.png',
+  'IFB Commercial': '/IFB-Logo.png',
+  Primus: '/Primus.png',
+  'Primus Laundry': '/Primus.png',
+  Fagor: '/Fagor-Logo.png',
+  'Fagor Commercial': '/Fagor-Logo.png',
+  Milnor: '/Milnor-Logo.png',
+  Kannegiesser: '/Kannegaiser-Logo.png',
+  'SL Laundry Tech': '/SL-Logo.png',
+  'SL-Tech': '/SL-Logo.png',
+};
 
 interface ProductCategoryViewProps {
   category: MachineCategory;
@@ -410,19 +435,14 @@ export default function ProductCategoryView({ category }: ProductCategoryViewPro
               />
 
               <div className="space-y-2 pt-1">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Available Brands in This Category
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {brandNamesList.map((brand) => (
-                    <span
-                      key={brand}
-                      className="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-50 text-[#002B8B] border border-blue-100"
-                    >
-                      {brand}
-                    </span>
-                  ))}
-                </div>
+                <CardBrandScroller
+                  categoryId={category.id}
+                  categoryName={category.shortName}
+                  brands={brandNamesList.map((brandName) => ({
+                    name: brandName,
+                    logo: BRAND_LOGO_MAP[brandName] || '/SL-Logo.png',
+                  }))}
+                />
                 <p className="text-[11px] text-slate-500 pt-1 flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>Turnkey installation, operator training &amp; AMC available Pan-India.</span>
