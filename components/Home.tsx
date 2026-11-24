@@ -240,26 +240,7 @@ export default function Home() {
       </section>
 
       {/* 2. BRAND LOGOS SCROLLING MARQUEE STRIP */}
-      <section className="relative rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-gradient-to-b from-white via-slate-50/60 to-white p-4 sm:p-6 shadow-xs overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-4 sm:mb-5 px-1">
-          <div className="flex items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-blue-50 text-[#002B8B] border border-blue-200/80 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-[#002B8B] animate-pulse" />
-              Authorized Dealerships &amp; Global Makes
-            </span>
-            <span className="text-xs font-semibold text-slate-500 hidden md:inline">
-              Commercial Sales, Spares &amp; Support Pan-India
-            </span>
-          </div>
-          <Link
-            href="/brands"
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#002B8B] hover:text-[#001f66] group self-start sm:self-auto"
-          >
-            <span>Explore All 11 Global Brands</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-
+      <section className="relative rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-gradient-to-b from-white via-slate-50/60 to-white py-3 sm:py-4 px-2 sm:px-4 shadow-xs overflow-hidden">
         {/* Marquee Viewport with Edge Fade Gradients */}
         <div className="relative overflow-hidden w-full py-1">
           {/* Left Fade Gradient */}
